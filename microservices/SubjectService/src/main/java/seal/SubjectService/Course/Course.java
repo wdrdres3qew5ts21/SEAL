@@ -35,7 +35,7 @@ public class Course {
 
   @OneToMany(cascade = CascadeType.ALL,
     fetch = FetchType.LAZY,
-    mappedBy = "post"
+    mappedBy = "course"
   )
   private List<Subject> subjects;
 
