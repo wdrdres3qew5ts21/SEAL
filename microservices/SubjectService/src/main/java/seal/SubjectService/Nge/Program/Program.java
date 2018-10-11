@@ -1,7 +1,12 @@
 package seal.SubjectService.Nge.Program;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Program {
 
+	@Id
     private String program_id;
     private String program_name;
     private String program_code;
