@@ -3,10 +3,10 @@ package seal.SubjectService.Nge.Subject;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
+
 public class Subject {
 
-    @Id
+    
     private String subject_id;
     private String subject_name;
     private String subject_code;
