@@ -5,6 +5,8 @@
  */
 package seal.VideoService.video;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +21,24 @@ import org.springframework.web.client.RestTemplate;
 public class VideoService {
 
     @Autowired
-    VideoRepository videoRepository;
+    private VideoRepository videoRepository;
+    
+    private RestTemplate rest = new RestTemplate();
+    private String videoUrlId = "https://ngelearning.sit.kmutt.ac.th/api/v0/video/";
 
-    public ResponseEntity<Video> fetchVideoAPI(String videoUrlYouWantToFetch) {
-        RestTemplate rest = new RestTemplate();
-        //return rest.getForEntity(videoUrlYouWantToFetch, Map.class);
-        return rest.getForEntity(videoUrlYouWantToFetch, Video.class);
+    public ResponseEntity<Video> findVideoById(int videoID) {
+        System.out.println("inside service video");
+        ResponseEntity<Video> video = rest.getForEntity(videoUrlId + videoID, Video.class);
+        videoRepository.save(video.getBody());
+        System.out.println(video.getBody());
+        return video;
     }
 
+    ResponseEntity<ArrayList> findAllVideo() {
+        ResponseEntity<ArrayList> videoList = rest.getForEntity("https://ngelearning.sit.kmutt.ac.th/api/v0/subject/2/videos", ArrayList.class);
+        System.out.println(videoList.getBody());
+        return videoList;
+    }
+    
+    
 }

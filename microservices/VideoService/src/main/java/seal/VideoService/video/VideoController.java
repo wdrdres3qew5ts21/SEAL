@@ -5,6 +5,7 @@
  */
 package seal.VideoService.video;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.client.RestTemplate;
 
 /**
  *
@@ -28,23 +30,20 @@ import org.springframework.web.bind.annotation.PutMapping;
 public class VideoController {
 
     @Autowired
-    VideoService videoService;
+    private VideoService videoService;
 
-    @GetMapping("/sparta")
-    public ResponseEntity<Video> helloWorld() {
-        System.out.println("Try To Sparta Video Service !!!");
-        //ResponseEntity<Map> video = videoService.fetchVideoAPI("https://ngelearning.sit.kmutt.ac.th/api/v0/video/8380");
-        ResponseEntity<Video> video = videoService.fetchVideoAPI("https://ngelearning.sit.kmutt.ac.th/api/v0/video/8380");
-        System.out.println(video);
-//        System.out.println(video.getBody().get("room"));
-//        System.out.println(((Map<String, Object>)video.getBody().get("room")).get("room_id"));
-//        System.out.println(((Map<String, Object>)video.getBody().get("player")).get("subtitle_available").getClass());
+    
+    @GetMapping("/video/{id}")
+    public ResponseEntity<Video> helloWorld(@PathVariable int id) {
+        ResponseEntity<Video> video = videoService.findVideoById(id);
         return video;
     }
 
-    @GetMapping("/{id}")
-    public Object get(@PathVariable String id) {
-        return null;
+    @GetMapping("/video")
+    public ArrayList getTest() {
+        RestTemplate rest = new RestTemplate();
+        ResponseEntity<ArrayList> responseEntity = videoService.findAllVideo();
+        return responseEntity.getBody();
     }
 
     @PutMapping("/{id}")

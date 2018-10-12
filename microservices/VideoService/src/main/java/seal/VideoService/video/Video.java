@@ -7,14 +7,12 @@ package seal.VideoService.video;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.validation.constraints.Size;
@@ -25,7 +23,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "Video")
-public class Video {
+public class Video implements Serializable{
 
     @Id
     @JsonProperty("video_id")
@@ -59,9 +57,14 @@ public class Video {
     @JsonProperty("video_thumbnail")
     private String videoThumbnail;
 
-//    @OneToOne
-//    @JoinColumn(name = "roomId")
-//    private Room room;
+    @Embedded
+    @JsonProperty("room")
+    private Room room;
+    
+    @Embedded
+    @JsonProperty("teacher")
+    private Teacher teacher;
+    
     @Embedded
     @JsonProperty("player")
     private Player player;
