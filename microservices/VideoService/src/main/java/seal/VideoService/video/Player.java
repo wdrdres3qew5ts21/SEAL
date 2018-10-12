@@ -73,5 +73,10 @@ public class Player {
         this.subtitleFile = subtitleFile;
     }
 
+    @Override
+    public String toString() {
+        return "Player{" + "hlsUrl=" + hlsUrl + ", spritesheetFrame=" + spritesheetFrame + ", spritesheetFile=" + spritesheetFile + ", subtitleAvailable=" + subtitleAvailable + ", subtitleFile=" + subtitleFile + '}';
+    }
+
     
 }

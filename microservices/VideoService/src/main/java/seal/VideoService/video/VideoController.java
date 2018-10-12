@@ -6,12 +6,8 @@
 package seal.VideoService.video;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
-import java.util.Map;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,19 +27,24 @@ public class VideoController {
 
     @Autowired
     private VideoService videoService;
-
+    
+    @GetMapping("/")
+    public String home(){
+        return "helloWrold!!!";
+    }
+    
     
     @GetMapping("/video/{id}")
-    public ResponseEntity<Video> helloWorld(@PathVariable int id) {
+    public ResponseEntity<Video> helloWorld(@PathVariable String id) {
         ResponseEntity<Video> video = videoService.findVideoById(id);
         return video;
     }
 
-    @GetMapping("/video")
-    public ArrayList getTest() {
+    @GetMapping("/videos")
+    public ResponseEntity<List> getTest() {
         RestTemplate rest = new RestTemplate();
-        ResponseEntity<ArrayList> responseEntity = videoService.findAllVideo();
-        return responseEntity.getBody();
+        ResponseEntity<List> responseEntity = videoService.findAllVideo();
+        return responseEntity;
     }
 
     @PutMapping("/{id}")

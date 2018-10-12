@@ -27,9 +27,8 @@ public class Video implements Serializable{
 
     @Id
     @JsonProperty("video_id")
-    private String videoId;
+    private String video_id;
     @JsonProperty("video_name")
-
     private String videoName;
     @Lob
     @JsonProperty("video_description")
@@ -74,7 +73,7 @@ public class Video implements Serializable{
     }
 
     public Video(String videoId, String videoName, String videoDescription, int videoDuration, Date videoDate, Date videoStartTime, Date videoEndTime, String videoThumbnail, Player player) {
-        this.videoId = videoId;
+        this.video_id = videoId;
         this.videoName = videoName;
         this.videoDescription = videoDescription;
         this.videoDuration = videoDuration;
@@ -85,12 +84,12 @@ public class Video implements Serializable{
         this.player = player;
     }
 
-    public String getVideoId() {
-        return videoId;
+    public String getVideo_id() {
+        return video_id;
     }
 
-    public void setVideoId(String videoId) {
-        this.videoId = videoId;
+    public void setVideo_id(String video_id) {
+        this.video_id = video_id;
     }
 
     public String getVideoName() {
@@ -151,7 +150,7 @@ public class Video implements Serializable{
 
     @Override
     public String toString() {
-        return "Video{" + "videoId=" + videoId + ", videoName=" + videoName + ", videoDescription=" + videoDescription + ", videoDuration=" + videoDuration + ", videoDate=" + videoDate + ", videoStartTime=" + videoStartTime + ", videoEndTime=" + videoEndTime + ", videoThumbnail=" + videoThumbnail + ", player=" + player + '}';
+        return "Video{" + "videoId=" + video_id + ", videoName=" + videoName + ", videoDescription=" + videoDescription + ", videoDuration=" + videoDuration + ", videoDate=" + videoDate + ", videoStartTime=" + videoStartTime + ", videoEndTime=" + videoEndTime + ", videoThumbnail=" + videoThumbnail + ", player=" + player + '}';
     }
 
 }
