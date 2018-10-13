@@ -35,13 +35,13 @@ public class VideoController {
     
     
     @GetMapping("/video/{id}")
-    public ResponseEntity<Video> helloWorld(@PathVariable String id) {
+    public ResponseEntity<Video> findVideoByIs(@PathVariable String id) {
         ResponseEntity<Video> video = videoService.findVideoById(id);
         return video;
     }
 
     @GetMapping("/videos")
-    public ResponseEntity<List> getTest() {
+    public ResponseEntity<List> findAllVideo() {
         RestTemplate rest = new RestTemplate();
         ResponseEntity<List> responseEntity = videoService.findAllVideo();
         return responseEntity;
