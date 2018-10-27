@@ -5,14 +5,9 @@
  */
 package seal.VideoService.video;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -29,33 +24,26 @@ public class VideoService {
 
     private RestTemplate rest = new RestTemplate();
     private String videoUrlId = "https://ngelearning.sit.kmutt.ac.th/api/v0/video/";
-    
-    
-    public VideoService() {
-       
-    }
 
     @PostConstruct
-    public void init(){
-        syncAllVideoWhenStartFromElearning();
+    public void init() {
+
     }
     
     public ResponseEntity<Video> findVideoById(String videoID) {
-//        System.out.println("inside service video");
-//        ResponseEntity<Video> video = rest.getForEntity(videoUrlId + videoID, Video.class);
-//        videoRepository.save(video.getBody());
-//        System.out.println("------ Find by ID  --------");
-//        System.out.println(video.getBody());
-        return new ResponseEntity<Video>(videoRepository.findById(videoID).get(),HttpStatus.OK);
+        ResponseEntity<Video> video = rest.getForEntity("https://ngelearning.sit.kmutt.ac.th/api/v0/video/" + videoID, Video.class);
+        return video;
     }
 
     public ResponseEntity<List> findAllVideo() {
-//        ResponseEntity<ArrayList> videoList = rest.getForEntity("https://ngelearning.sit.kmutt.ac.th/api/v0/subject/2/videos", ArrayList.class);
-//        System.out.println(videoList.getBody());
-        return new ResponseEntity<List>(videoRepository.findAll(), HttpStatus.OK);
+        ResponseEntity<List> videoList = rest.getForEntity("https://ngelearning.sit.kmutt.ac.th/api/v0/subject/2/videos", List.class);
+        return videoList;
     }
 
-    
+    public ResponseEntity<List> findVideoFromSubjectId(String id) {
+        return rest.getForEntity("https://ngelearning.sit.kmutt.ac.th/api/v0/subject/" + id + "/videos", List.class);
+    }
+
     public void syncAllVideoWhenStartFromElearning() {
         System.out.println("Initialize sync video from E-Learning");
         ResponseEntity<Video[]> videoList = rest.getForEntity("https://ngelearning.sit.kmutt.ac.th/api/v0/subject/2/videos", Video[].class);

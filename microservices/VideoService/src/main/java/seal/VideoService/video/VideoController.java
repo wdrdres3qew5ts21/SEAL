@@ -43,23 +43,15 @@ public class VideoController {
     @GetMapping("/videos")
     public ResponseEntity<List> findAllVideo() {
         RestTemplate rest = new RestTemplate();
-        ResponseEntity<List> responseEntity = videoService.findAllVideo();
-        return responseEntity;
+        ResponseEntity<List> videosResponse = videoService.findAllVideo();
+        return videosResponse;
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> put(@PathVariable String id, @RequestBody Object input) {
-        return null;
-    }
 
-    @PostMapping
-    public ResponseEntity<?> post(@RequestBody Object input) {
-        return null;
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable String id) {
-        return null;
+    @GetMapping("/subject/{id}/videos")
+    public ResponseEntity<List> findVideoFromSubjectId(@PathVariable String id) {
+        ResponseEntity<List> videosFromSubjectResponse = videoService.findVideoFromSubjectId(id);
+        return videosFromSubjectResponse;
     }
 
 }
