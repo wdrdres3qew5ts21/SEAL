@@ -52,7 +52,6 @@ public class Video implements Serializable{
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date videoEndTime;
 
-    @Size(max = 255)
     @JsonProperty("video_thumbnail")
     private String videoThumbnail;
 

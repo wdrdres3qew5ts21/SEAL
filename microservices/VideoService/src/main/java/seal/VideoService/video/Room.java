@@ -7,8 +7,6 @@ package seal.VideoService.video;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 
 /**
  *
