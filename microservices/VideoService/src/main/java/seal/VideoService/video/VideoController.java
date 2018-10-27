@@ -18,19 +18,17 @@ import org.springframework.web.client.RestTemplate;
  *
  * @author wdrdr
  */
-@CrossOrigin(origins = "*")
 @RestController
 public class VideoController {
 
     @Autowired
     private VideoService videoService;
-    
+
     @GetMapping("/")
-    public String home(){
+    public String home() {
         return "helloWrold!!!";
     }
-    
-    
+
     @GetMapping("/video/{id}")
     public ResponseEntity<Video> findVideoByIs(@PathVariable String id) {
         ResponseEntity<Video> video = videoService.findVideoById(id);
@@ -43,7 +41,6 @@ public class VideoController {
         ResponseEntity<List> videosResponse = videoService.findAllVideo();
         return videosResponse;
     }
-
 
     @GetMapping("/subject/{id}/videos")
     public ResponseEntity<List> findVideoFromSubjectId(@PathVariable String id) {
