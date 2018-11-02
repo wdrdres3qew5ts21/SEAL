@@ -33,4 +33,15 @@ public class ProgramController {
         return new ResponseEntity<List<Subject>>(subjects, HttpStatus.OK);
     }
     
+    @RequestMapping(
+        value = "/program/{program_id}/subjects",
+        method = RequestMethod.GET
+    )
+    public ResponseEntity<List<Subject>> findSubjects(
+        @PathVariable("program_id") String program_id,
+        @RequestParam("find") String find
+    ) {
+        List<Subject> subjects = programAdepter.findSubjects(program_id, find);
+        return new ResponseEntity<List<Subject>>(subjects, HttpStatus.OK);
+    }
 }
