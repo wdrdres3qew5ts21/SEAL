@@ -1,53 +1,57 @@
 package seal.SubjectService.Subject;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Subject {
 
-    private String subject_id;
-    private String subject_name;
-    private String subject_code;
-    private String subject_descrition;
+    @JsonProperty("subject_id")
+    private String id;
+    @JsonProperty("subject_name")
+    private String name;
+    @JsonProperty("subject_code")
+    private String code;
+    @JsonProperty("subject_description")
+    private String descrition;
 
     public Subject() {
     }
 
-    public Subject(String subject_id, String subject_name, String subject_code, String subject_descrition) {
-        this.subject_id = subject_id;
-        this.subject_name = subject_name;
-        this.subject_code = subject_code;
-        this.subject_descrition = subject_descrition;
+    public Subject(String id, String name, String code, String descrition) {
+        this.id = id;
+        this.name = name;
+        this.code = code;
+        this.descrition = descrition;
     }
 
-    public String getSubject_id() {
-        return this.subject_id;
+    public String getId() {
+        return this.id;
     }
 
-    public void setSubject_id(String subject_id) {
-        this.subject_id = subject_id;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getSubject_name() {
-        return this.subject_name;
+    public String getName() {
+        return this.name;
     }
 
-    public void setSubject_name(String subject_name) {
-        this.subject_name = subject_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getSubject_code() {
-        return this.subject_code;
+    public String getCode() {
+        return this.code;
     }
 
-    public void setSubject_code(String subject_code) {
-        this.subject_code = subject_code;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getSubject_descrition() {
-        return this.subject_descrition;
+    public String getDescrition() {
+        return this.descrition;
     }
 
-    public void setSubject_descrition(String subject_descrition) {
-        this.subject_descrition = subject_descrition;
+    public void setDescrition(String descrition) {
+        this.descrition = descrition;
     }
-
-
 }
