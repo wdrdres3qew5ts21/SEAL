@@ -1,122 +1,53 @@
 package seal.SubjectService.Subject;
 
-import java.io.Serializable;
-import java.util.Date;
+public class Subject {
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+    private String subject_id;
+    private String subject_name;
+    private String subject_code;
+    private String subject_descrition;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+    public Subject() {
+    }
 
-import seal.SubjectService.Course.Course;
+    public Subject(String subject_id, String subject_name, String subject_code, String subject_descrition) {
+        this.subject_id = subject_id;
+        this.subject_name = subject_name;
+        this.subject_code = subject_code;
+        this.subject_descrition = subject_descrition;
+    }
 
-@Entity
-@EntityListeners(AuditingEntityListener.class)
-@Table(name = "Subjects")
-public class Subject implements Serializable {
-  @Id
-  private String id;
-  
-  private String name;
-  
-  private String code;
-  
-  private String descrption;
+    public String getSubject_id() {
+        return this.subject_id;
+    }
 
-  @ManyToOne
-  @JoinColumn(name = "course_id", nullable = false)
-  private Course course;
+    public void setSubject_id(String subject_id) {
+        this.subject_id = subject_id;
+    }
 
-  @Column(name = "created_at",
-    nullable = false,
-    updatable = false
-  )
-  @Temporal(TemporalType.TIMESTAMP)
-  @CreatedDate
-  private Date createdAt;
+    public String getSubject_name() {
+        return this.subject_name;
+    }
 
-  @Column(name = "updated_at",
-    nullable = false,
-    updatable = true
-  )
-  @Temporal(TemporalType.TIMESTAMP)
-  @CreatedDate
-  private Date updatedAt;
+    public void setSubject_name(String subject_name) {
+        this.subject_name = subject_name;
+    }
 
-  public Subject() {
-  }
+    public String getSubject_code() {
+        return this.subject_code;
+    }
 
-  public Subject(String id, String name, String code, String descrption, Course course, Date createdAt, Date updatedAt) {
-    this.id = id;
-    this.name = name;
-    this.code = code;
-    this.descrption = descrption;
-    this.course = course;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
-  }
+    public void setSubject_code(String subject_code) {
+        this.subject_code = subject_code;
+    }
 
-  public String getId() {
-    return this.id;
-  }
+    public String getSubject_descrition() {
+        return this.subject_descrition;
+    }
 
-  public void setId(String id) {
-    this.id = id;
-  }
+    public void setSubject_descrition(String subject_descrition) {
+        this.subject_descrition = subject_descrition;
+    }
 
-  public String getName() {
-    return this.name;
-  }
 
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getCode() {
-    return this.code;
-  }
-
-  public void setCode(String code) {
-    this.code = code;
-  }
-
-  public String getDescrption() {
-    return this.descrption;
-  }
-
-  public void setDescrption(String descrption) {
-    this.descrption = descrption;
-  }
-
-  public Course getCourse() {
-    return this.course;
-  }
-
-  public void setCourse(Course course) {
-    this.course = course;
-  }
-
-  public Date getCreatedAt() {
-    return this.createdAt;
-  }
-
-  public void setCreatedAt(Date createdAt) {
-    this.createdAt = createdAt;
-  }
-
-  public Date getUpdatedAt() {
-    return this.updatedAt;
-  }
-
-  public void setUpdatedAt(Date updatedAt) {
-    this.updatedAt = updatedAt;
-  }
 }
