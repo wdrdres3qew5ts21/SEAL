@@ -1,12 +1,12 @@
-package seal.FaveriteService;
+package seal.FavoriteService;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class FaveriteServiceApplication {
+public class FavoriteServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FaveriteServiceApplication.class, args);
+		SpringApplication.run(FavoriteServiceApplication.class, args);
 	}
 }
