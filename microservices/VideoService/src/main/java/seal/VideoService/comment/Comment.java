@@ -13,45 +13,46 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 import org.springframework.data.annotation.CreatedDate;
 
+import seal.VideoService.video.Video;
+
 @Entity
 @Table(name = "comments")
 public class Comment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private long id;
 
-    @Column(name = "user-id")
+    @Column(name = "user_id")
     @NotBlank
     private long userId;
 
-    @Column(name = "video-id")
+    @Column(name = "video_id")
     @NotBlank
-    private int videoId;
+    private Video video;
 
-    @Column(name = "comment")
     @NotBlank
     private String comment;
     
-    @Column(name = "create-at")
+    @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
-    private Date createAt;
+    private Date createdAt;
     
-    @Column(name = "update-at")
+    @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date updateAt;
+    private Date updatedAt;
 
     public Comment() {
-
     }
 
-    public Comment(long id, long userId, int videoId, String comment) {
+    public Comment(long id, long userId, Video video, String comment, Date createdAt, Date updatedAt) {
         this.id = id;
         this.userId = userId;
-        this.videoId = videoId;
+        this.video = video;
         this.comment = comment;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public long getId() {
@@ -70,12 +71,12 @@ public class Comment implements Serializable {
         this.userId = userId;
     }
 
-    public int getVideoId() {
-        return videoId;
+    public Video getVideo() {
+        return video;
     }
 
-    public void setVideoId(int videoId) {
-        this.videoId = videoId;
+    public void setVideo(Video video) {
+        this.video = video;
     }
 
     public String getComment() {
@@ -85,4 +86,22 @@ public class Comment implements Serializable {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+    
+    
 }

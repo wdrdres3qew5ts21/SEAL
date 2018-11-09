@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentController {
     
     @Autowired
-    CommentService commentService;
+    private CommentService commentService;
     
     @RequestMapping(path = "/comments",method = RequestMethod.GET)
     public ResponseEntity<List<Comment>> getAllCommentInSystem() {
@@ -22,8 +22,8 @@ public class CommentController {
         return new ResponseEntity<List<Comment>>(comment, HttpStatus.OK);
     }
     
-    @RequestMapping(path = "/comments/video/{videoId}", method = RequestMethod.GET)
-    public ResponseEntity<Comment> saveCommentFromUserToSystem(@PathVariable int videoId, @RequestBody Comment commentData) {
+    @RequestMapping(path = "/comments/video/{videoId}", method = RequestMethod.POST)
+    public ResponseEntity<Comment> saveCommentFromUserToSystem(@PathVariable String videoId, @RequestBody Comment commentData) {
         Comment commentObject = commentService.saveCommentFromController(commentData);
         return new ResponseEntity<Comment>(commentObject,HttpStatus.OK);
     }
