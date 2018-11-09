@@ -12,8 +12,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
-import seal.VideoService.video.Video;
 
 @Entity
 @Table(name = "comments")
@@ -24,12 +24,11 @@ public class Comment implements Serializable {
     private long id;
 
     @Column(name = "user_id")
-    @NotBlank
     private long userId;
 
     @Column(name = "video_id")
     @NotBlank
-    private Video video;
+    private String videoId;
 
     @NotBlank
     private String comment;
@@ -41,15 +40,16 @@ public class Comment implements Serializable {
     
     @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
     private Date updatedAt;
 
     public Comment() {
     }
 
-    public Comment(long id, long userId, Video video, String comment, Date createdAt, Date updatedAt) {
+    public Comment(long id, long userId, String videoId, String comment, Date createdAt, Date updatedAt) {
         this.id = id;
         this.userId = userId;
-        this.video = video;
+        this.videoId = videoId;
         this.comment = comment;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -71,12 +71,12 @@ public class Comment implements Serializable {
         this.userId = userId;
     }
 
-    public Video getVideo() {
-        return video;
+    public String getVideoId() {
+        return videoId;
     }
 
-    public void setVideo(Video video) {
-        this.video = video;
+    public void setVideoId(String videoId) {
+        this.videoId = videoId;
     }
 
     public String getComment() {
@@ -102,6 +102,4 @@ public class Comment implements Serializable {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
-    
-    
 }
