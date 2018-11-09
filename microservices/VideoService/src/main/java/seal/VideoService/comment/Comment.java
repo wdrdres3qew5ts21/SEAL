@@ -8,20 +8,23 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
+import org.springframework.data.annotation.CreatedDate;
 
 @Entity
-@Table(name = "comment")
+@Table(name = "comments")
 public class Comment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Column(name = "user-id")
     @NotBlank
-    private String userId;
+    private long userId;
 
     @Column(name = "video-id")
     @NotBlank
@@ -32,36 +35,38 @@ public class Comment implements Serializable {
     private String comment;
     
     @Column(name = "create-at")
-    
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
     private Date createAt;
     
     @Column(name = "update-at")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date updateAt;
 
     public Comment() {
 
     }
 
-    public Comment(int id, String userId, int videoId, String comment) {
+    public Comment(long id, long userId, int videoId, String comment) {
         this.id = id;
         this.userId = userId;
         this.videoId = videoId;
         this.comment = comment;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
