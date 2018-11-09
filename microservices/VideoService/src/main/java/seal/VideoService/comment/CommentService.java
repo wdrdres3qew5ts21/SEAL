@@ -14,9 +14,9 @@ public class CommentService {
         return commentRepository.findAll();
     }
     
-//    public List<Comment> getCommentByVideoId(String videoId) {
-//        return  commentRepository.findCommentByVideoId(videoId);
-//    }
+    public List<Comment> getCommentByVideoId(String videoId) {
+        return commentRepository.findByVideoId(videoId);
+    }
     
     public Comment saveCommentFromController(Comment comment) {
         return commentRepository.save(comment);
