@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Temporal;
+import seal.VideoService.comment.Comment;
 
 public class Video implements Serializable{
     @JsonProperty("video_id")
@@ -59,7 +61,7 @@ public class Video implements Serializable{
         this.teacher = teacher;
         this.player = player;
     }
-
+    
     public String getId() {
         return id;
     }
