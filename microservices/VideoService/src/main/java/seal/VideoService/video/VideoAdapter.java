@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class VideoService {
+public class VideoAdapter {
     private static final String VIDEO_URL = "https://ngelearning.sit.kmutt.ac.th/api/v0/video/";
     private static final String SUBJECT_URL = "https://ngelearning.sit.kmutt.ac.th/api/v0/subject/";
     

@@ -13,24 +13,24 @@ import org.springframework.web.client.RestTemplate;
 public class VideoController {
 
     @Autowired
-    private VideoService videoService;
+    private VideoAdapter videoAdapter;
 
     @GetMapping("/video/{id}")
     public ResponseEntity<Video> findVideoByIs(@PathVariable String id) {
-        ResponseEntity<Video> video = videoService.findVideoById(id);
+        ResponseEntity<Video> video = videoAdapter.findVideoById(id);
         return video;
     }
 
     @GetMapping("/videos")
     public ResponseEntity<List> findAllVideo() {
         RestTemplate rest = new RestTemplate();
-        ResponseEntity<List> videosResponse = videoService.findAllVideo();
+        ResponseEntity<List> videosResponse = videoAdapter.findAllVideo();
         return videosResponse;
     }
 
     @GetMapping("/subject/{id}/videos")
     public ResponseEntity<List> findVideoFromSubjectId(@PathVariable String id) {
-        ResponseEntity<List> videosFromSubjectResponse = videoService.findVideoFromSubjectId(id);
+        ResponseEntity<List> videosFromSubjectResponse = videoAdapter.findVideoFromSubjectId(id);
         return videosFromSubjectResponse;
     }
 
