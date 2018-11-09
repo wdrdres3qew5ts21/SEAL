@@ -1,6 +1,9 @@
 package seal.UserService.Favorite;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import seal.UserService.User.User;
@@ -8,11 +11,12 @@ import seal.UserService.User.User;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "Favorites")
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties(value = { "created_at", "updated_at" }, allowGetters = true)
 public class Favorite implements Serializable {
 
     @Id
@@ -22,19 +26,20 @@ public class Favorite implements Serializable {
 
     @NotBlank
     @Column(name = "user_id")
+    @ManyToOne
     private User user;
 
     @NotBlank
     @Column(name = "subject_id")
     private String subjectId;
 
-    @NotBlank
-    @Column(name = "created_at")
-    private String created_at;
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
+    private Date created_at;
 
-    @NotBlank
-    @Column(name = "updated_at")
-    private String updated_at;
+    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
+    private Date updated_at;
 
     public Favorite() {
         super();
@@ -61,19 +66,19 @@ public class Favorite implements Serializable {
         this.subjectId = subjectId;
     }
 
-    public String getCreateAt() {
+    public Date getCreateAt() {
         return created_at;
     }
 
-    public void setCreateAt(String created_at) {
+    public void setCreateAt(Date created_at) {
         this.created_at = created_at;
     }
 
-    public String getUpdateAt() {
+    public Date getUpdateAt() {
         return updated_at;
     }
 
-    public void setUpdateAt(String updated_at) {
+    public void setUpdateAt(Date updated_at) {
         this.updated_at = updated_at;
     }
 }

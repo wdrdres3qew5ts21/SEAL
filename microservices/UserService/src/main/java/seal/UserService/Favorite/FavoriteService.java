@@ -3,7 +3,7 @@ package seal.UserService.Favorite;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import seal.UserService.User.User;
+// import seal.UserService.User.User;
 import seal.UserService.User.UserRepository;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class FavoriteService {
     private UserRepository userRepository;
     
     public List<Favorite> getFavoriteByUserId(Long userId) {
-        return favoriteRepository.findByUserId(userId);
+        return favoriteRepository.findByUser(userId);  
     }
 
     // public Favorite createFavorite(Long userId, Favorite favorite) {

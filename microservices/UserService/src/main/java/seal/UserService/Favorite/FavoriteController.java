@@ -17,8 +17,8 @@ public class FavoriteController {
 
     @GetMapping("/favorites/user/{user_id}")
     public ResponseEntity<List<Favorite>> getAllFavorite(@PathVariable(name = "user_id") Long userId) {
-        List<Favorite> favorites_object = favoriteService.getFavoriteByUserId(userId);
-        return new ResponseEntity<List<Favorite>>(favorites_object, HttpStatus.OK);
+        List<Favorite> favorites = favoriteService.getFavoriteByUserId(userId);
+        return new ResponseEntity<List<Favorite>>(favorites, HttpStatus.OK);
     }
 
     // @PostMapping("/favorite/user/{user_id}/subject")
