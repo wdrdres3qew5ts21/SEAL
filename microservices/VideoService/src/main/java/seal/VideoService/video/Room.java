@@ -1,59 +1,41 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package seal.VideoService.video;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import javax.persistence.Embeddable;
 
-/**
- *
- * @author wdrdr
- */
-@Embeddable
-public class Room {
-
-    
+public class Room {    
     @JsonProperty("room_id")
-    private int roomId;
+    private int id;
+
     @JsonProperty("room_name")
-    private String roomName;
+    private String name;
+
     @JsonProperty("room_place")
-    private String roomPlace;
+    private String place;
 
     public Room() {
-        
     }
 
-    public int getRoomId() {
-        return roomId;
+    public int getId() {
+        return this.id;
     }
 
-    public void setRoomId(int roomId) {
-        this.roomId = roomId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getRoomName() {
-        return roomName;
+    public String getName() {
+        return this.name;
     }
 
-    public void setRoomName(String roomName) {
-        this.roomName = roomName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getRoomPlace() {
-        return roomPlace;
+    public String getPlace() {
+        return this.place;
     }
 
-    public void setRoomPlace(String roomPlace) {
-        this.roomPlace = roomPlace;
+    public void setPlace(String place) {
+        this.place = place;
     }
-
-    @Override
-    public String toString() {
-        return "Room{" + "roomId=" + roomId + ", roomName=" + roomName + ", roomPlace=" + roomPlace + '}';
-    }
-
 }

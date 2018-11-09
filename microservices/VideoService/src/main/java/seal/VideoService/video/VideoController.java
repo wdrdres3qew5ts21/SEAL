@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package seal.VideoService.video;
 
 import java.util.List;
@@ -14,20 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 
-/**
- *
- * @author wdrdr
- */
 @RestController
 public class VideoController {
 
     @Autowired
     private VideoService videoService;
-
-    @GetMapping("/")
-    public String home() {
-        return "helloWrold!!!";
-    }
 
     @GetMapping("/video/{id}")
     public ResponseEntity<Video> findVideoByIs(@PathVariable String id) {
