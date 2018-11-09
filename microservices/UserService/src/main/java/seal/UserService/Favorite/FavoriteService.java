@@ -18,7 +18,7 @@ public class FavoriteService {
     private UserRepository userRepository;
     
     public List<Favorite> getFavoriteByUserId(Long userId) {
-        return favoriteRepository.findByUser(userId);  
+        return favoriteRepository.findByUserId(userId);  
     }
 
     // public Favorite createFavorite(Long userId, Favorite favorite) {

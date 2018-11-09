@@ -1,7 +1,10 @@
 package seal.UserService.Favorite;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -16,17 +19,18 @@ import java.util.Date;
 @Entity
 @Table(name = "Favorites")
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = { "created_at", "updated_at" }, allowGetters = true)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Favorite implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
+    private long id;
 
-    @NotBlank
-    @Column(name = "user_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name="user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnore
     private User user;
 
     @NotBlank
@@ -35,23 +39,35 @@ public class Favorite implements Serializable {
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
-    private Date created_at;
+    @Column(name = "created_at")
+    private Date createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
-    private Date updated_at;
+    @Column(name = "updated_at")
+    private Date updatedAt;
 
     public Favorite() {
-        super();
     }
 
-    public Favorite(User user, String subjectId) {
+    public Favorite(long id, User user, String subjectId, Date createdAt, Date updatedAt) {
+        this.id = id;
         this.user = user;
         this.subjectId = subjectId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public long getId() {
+        return this.id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public User getUser() {
-        return user;
+        return this.user;
     }
 
     public void setUser(User user) {
@@ -59,26 +75,26 @@ public class Favorite implements Serializable {
     }
 
     public String getSubjectId() {
-        return subjectId;
+        return this.subjectId;
     }
 
     public void setSubjectId(String subjectId) {
         this.subjectId = subjectId;
     }
 
-    public Date getCreateAt() {
-        return created_at;
+    public Date getCreatedAt() {
+        return this.createdAt;
     }
 
-    public void setCreateAt(Date created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Date getUpdateAt() {
-        return updated_at;
+    public Date getUpdatedAt() {
+        return this.updatedAt;
     }
 
-    public void setUpdateAt(Date updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }
