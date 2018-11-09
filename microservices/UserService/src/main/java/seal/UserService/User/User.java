@@ -1,5 +1,6 @@
 package seal.UserService.User;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -19,9 +20,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = { "created_at", "updated_at" }, allowGetters = true)
 
-@Table(name = "user")
+@Table(name = "users")
 @Entity
-public class User {
+public class User implements Serializable{
 
     @Id
     private long id;
@@ -44,7 +45,6 @@ public class User {
     @NotNull
     private int year;
     
-    @NotNull
     private String image;
 
     @Temporal(TemporalType.TIMESTAMP)

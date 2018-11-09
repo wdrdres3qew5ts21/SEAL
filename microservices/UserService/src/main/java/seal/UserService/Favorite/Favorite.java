@@ -3,12 +3,14 @@ package seal.UserService.Favorite;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import seal.UserService.User.User;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "Favorite")
+@Table(name = "Favorites")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Favorite implements Serializable {
@@ -20,11 +22,11 @@ public class Favorite implements Serializable {
 
     @NotBlank
     @Column(name = "user_id")
-    private Long user_id;
+    private User user;
 
     @NotBlank
     @Column(name = "subject_id")
-    private int subject_id;
+    private String subjectId;
 
     @NotBlank
     @Column(name = "created_at")
@@ -38,25 +40,25 @@ public class Favorite implements Serializable {
         super();
     }
 
-    public Favorite(@NotBlank Long user_id, @NotBlank int subject_id) {
-        this.user_id = user_id;
-        this.subject_id = subject_id;
+    public Favorite(User user, String subjectId) {
+        this.user = user;
+        this.subjectId = subjectId;
     }
 
-    public Long getUserId() {
-        return user_id;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long user_id) {
-        this.user_id = user_id;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public int getSubjectId() {
-        return subject_id;
+    public String getSubjectId() {
+        return subjectId;
     }
 
-    public void setSubjectId(int subject_id) {
-        this.subject_id = subject_id;
+    public void setSubjectId(String subjectId) {
+        this.subjectId = subjectId;
     }
 
     public String getCreateAt() {

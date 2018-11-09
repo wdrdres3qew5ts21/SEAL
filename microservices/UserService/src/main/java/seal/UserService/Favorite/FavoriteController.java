@@ -7,28 +7,29 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 @RestController
 public class FavoriteController {
 
     @Autowired
     private FavoriteService favoriteService;
 
-    @GetMapping("/favorites/user/{user_id:[\\s]}")
+    @GetMapping("/favorites/user/{user_id}")
     public ResponseEntity<List<Favorite>> getAllFavorite(@PathVariable(name = "user_id") Long userId) {
         List<Favorite> favorites_object = favoriteService.getFavoriteByUserId(userId);
         return new ResponseEntity<List<Favorite>>(favorites_object, HttpStatus.OK);
     }
 
-    @PostMapping("/favorite/user/{user_id:[\\s]}/subject/{subject_id:[\\d]}")
-    public ResponseEntity<Favorite> createFavorite(@PathVariable(name = "user_id") Long userId,
-                                                   @PathVariable(name = "subject_id") int subjectId) {
-        Favorite favorite_object = favoriteService.createFavorite(userId, subjectId);
-        return new ResponseEntity<Favorite>(favorite_object, HttpStatus.OK);
-    }
+    // @PostMapping("/favorite/user/{user_id}/subject")
+    // public ResponseEntity<Favorite> createFavorite(@PathVariable(name = "user_id") Long userId,  @Valid @RequestBody Favorite favorite) {
+    //     Favorite favorite_object = favoriteService.createFavorite(userId, favorite);
+    //     return new ResponseEntity<Favorite>(favorite_object, HttpStatus.OK);
+    // }
 
-    @DeleteMapping("/favorite/{favorite_id:[\\d]}")
-    public ResponseEntity<Favorite> deleteFavorite(@PathVariable(name = "favorite_id") int id) {
-        Favorite favorite_object = favoriteService.deleteFavoriteById(id);
-        return new ResponseEntity<Favorite>(favorite_object, HttpStatus.OK);
-    }
+    // @DeleteMapping("/favorite/{favorite_id:[\\d]}")
+    // public ResponseEntity<Favorite> deleteFavorite(@PathVariable(name = "favorite_id") Long id) {
+    //     Favorite favorite_object = favoriteService.deleteFavoriteById(id);
+    //     return new ResponseEntity<Favorite>(favorite_object, HttpStatus.OK);
+    // }
 }
