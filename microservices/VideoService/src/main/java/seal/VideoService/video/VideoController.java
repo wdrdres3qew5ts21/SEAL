@@ -1,51 +1,39 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package seal.VideoService.video;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-/**
- *
- * @author wdrdr
- */
+@CrossOrigin
 @RestController
 public class VideoController {
 
     @Autowired
-    private VideoService videoService;
+    private VideoAdapter videoAdapter;
 
-    @GetMapping("/")
-    public String home() {
-        return "helloWrold!!!";
-    }
-
-    @GetMapping("/video/{id}")
+    @RequestMapping(path = "/video/{id)", method = RequestMethod.GET)
     public ResponseEntity<Video> findVideoByIs(@PathVariable String id) {
-        ResponseEntity<Video> video = videoService.findVideoById(id);
-        return video;
+        Video video = videoAdapter.findVideoById(id);
+        return new ResponseEntity<Video>(video, HttpStatus.OK);
     }
 
-    @GetMapping("/videos")
-    public ResponseEntity<List> findAllVideo() {
-        RestTemplate rest = new RestTemplate();
-        ResponseEntity<List> videosResponse = videoService.findAllVideo();
-        return videosResponse;
+    @RequestMapping(path = "/videos", method = RequestMethod.GET)
+    public ResponseEntity<List<Video>> findAllVideo() {
+        List<Video> videosResponse = videoAdapter.findAllVideo();
+        return new ResponseEntity<List<Video>>(videosResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/subject/{id}/videos")
-    public ResponseEntity<List> findVideoFromSubjectId(@PathVariable String id) {
-        ResponseEntity<List> videosFromSubjectResponse = videoService.findVideoFromSubjectId(id);
-        return videosFromSubjectResponse;
+    @RequestMapping(path = "/subject/{id}/videos", method = RequestMethod.GET)
+    public ResponseEntity<List<Video>> findVideoFromSubjectId(@PathVariable String id) {
+        List<Video> videosFromSubjectResponse = videoAdapter.findVideoFromSubjectId(id);
+        return new ResponseEntity<List<Video>>(videosFromSubjectResponse, HttpStatus.OK);
     }
 
 }
