@@ -21,15 +21,15 @@ public class FavoriteController {
         return new ResponseEntity<List<Favorite>>(favorites, HttpStatus.OK);
     }
 
-    // @PostMapping("/favorite/user/{user_id}/subject")
-    // public ResponseEntity<Favorite> createFavorite(@PathVariable(name = "user_id") Long userId,  @Valid @RequestBody Favorite favorite) {
-    //     Favorite favorite_object = favoriteService.createFavorite(userId, favorite);
-    //     return new ResponseEntity<Favorite>(favorite_object, HttpStatus.OK);
-    // }
+    @PostMapping("/favorite/user/{user_id}/subject")
+    public ResponseEntity<Favorite> createFavorite(@PathVariable(name = "user_id") Long userId,  @Valid @RequestBody Favorite favorite) {
+        Favorite favorite_object = favoriteService.createFavorite(userId, favorite);
+        return new ResponseEntity<Favorite>(favorite_object, HttpStatus.OK);
+    }
 
-    // @DeleteMapping("/favorite/{favorite_id:[\\d]}")
-    // public ResponseEntity<Favorite> deleteFavorite(@PathVariable(name = "favorite_id") Long id) {
-    //     Favorite favorite_object = favoriteService.deleteFavoriteById(id);
-    //     return new ResponseEntity<Favorite>(favorite_object, HttpStatus.OK);
-    // }
+    @DeleteMapping("/favorite/{favorite_id:[\\d]}")
+    public ResponseEntity<Favorite> deleteFavorite(@PathVariable(name = "favorite_id") Long id) {
+        Favorite favorite_object = favoriteService.deleteFavoriteById(id);
+        return new ResponseEntity<Favorite>(favorite_object, HttpStatus.OK);
+    }
 }
