@@ -24,9 +24,16 @@ public class CommentController {
         return new ResponseEntity<List<Comment>>(comment, HttpStatus.OK);
     }
     
-    @RequestMapping(path = "/comments/video/{videoId}", method = RequestMethod.POST)
+    @RequestMapping(path = "/video/{videoId)/comments", method = RequestMethod.GET)
+    public ResponseEntity<List<Comment>> getAllCommentInThatVideo(@PathVariable String videoId) {
+        List<Comment> comment = commentService.getCommentByVideoId(videoId);
+        return new ResponseEntity<List<Comment>>(comment, HttpStatus.OK);
+    }
+    
+    @RequestMapping(path = "/video/{videoId}/comment", method = RequestMethod.POST)
     public ResponseEntity<Comment> saveCommentFromUserToSystem(@PathVariable String videoId, @RequestBody Comment commentData) {
-        Comment commentObject = commentService.saveCommentFromController(commentData);
-        return new ResponseEntity<Comment>(commentObject,HttpStatus.OK);
+        commentData.setVideoId(videoId);
+        Comment comment = commentService.saveCommentFromController(commentData);
+        return new ResponseEntity<Comment>(comment,HttpStatus.OK);
     }
 }
