@@ -1,5 +1,6 @@
 package seal.UserService.User;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class UserController {
 
     @Autowired
@@ -32,22 +33,36 @@ public class UserController {
         return new ResponseEntity<List<User>>(user,HttpStatus.OK);
     }
 
-    @PostMapping(path = "/user/signin")
-    public ResponseEntity<Boolean> signInByStudentId(@Valid @RequestBody Map<String, String> user_input, HttpServletResponse response) {
+    @PostMapping(path = "/user/login")
+    public ResponseEntity<HashMap> signInByStudentId(@RequestBody Map<String, String> user_input, HttpServletResponse response) {
         Long userId = Long.parseLong(user_input.get("id").toString());
         String password = user_input.get("password").toString();
-
+//        User son = new User();
+//        son.setCreated_at(new Date());
+//        son.setDepartment("Information Technology");
+//        son.setFirstname("Supakorn");
+//        son.setLastname("Trakumaiphol");
+//        son.setPassword("wdrdres3qew5ts21");
+//        son.setId(59130500097l);
+//        userRepository.save(son);
         User user = userService.getUserById(userId);
+        System.out.println(user);
+        HashMap<String, Object> responseData = new HashMap();
 
-        if(user != null) {
+        if (user != null) {
             String userPassword = user.getPassword();
-            if(userPassword.equals(password)) {
+            if (userPassword.equals(password)) {
                 String token = tokenAuthenticationService.createTokenUser(user);
                 response.addCookie(new Cookie("cookie_token", token));
                 response.addHeader("token", token);
-                return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+                System.out.println(response.getHeaderNames());
+                responseData.put("status", true);
+                responseData.put("jwtToken", token);
+                responseData.put("user", user);
+                return new ResponseEntity<HashMap>(responseData, HttpStatus.OK);
             }
         }
-        return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+        responseData.put("status", false);
+        return new ResponseEntity<HashMap>(responseData, HttpStatus.UNAUTHORIZED);
     }
 }
