@@ -1,6 +1,8 @@
 package seal.SubjectService.Program;
 
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.server.ResponseStatusException;
 
 import seal.SubjectService.Subject.Subject;
 
@@ -18,17 +20,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 @CrossOrigin
 @RestController
 public class ProgramController {
-
     @Autowired
     private ProgramAdepter programAdepter;
+
+    private static final String NOT_FOUND_MASSEGE = "Subject Not Found";
+    private static final String INCORRECT_PARAM = "Incorrect Parameter";
 
     @RequestMapping(value = "/programs", method = RequestMethod.GET)
     public ResponseEntity<List<Program>> getPrograms() {
         List<Program> programs = programAdepter.getAllProgramsDetail();
         return new ResponseEntity<List<Program>>(programs, HttpStatus.OK);
     }
-
-    
 
     @RequestMapping(
             value = "/program/{program_id}/subjects",
@@ -40,16 +42,21 @@ public class ProgramController {
     ) {
         List<Subject> subjects = null;
         if (find == null) {
-            subjects = programAdepter.getAllSubjectsByProgramId(program_id);
+            try {
+                subjects = programAdepter.getAllSubjectsByProgramId(program_id);
+            } catch (HttpClientErrorException error) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, NOT_FOUND_MASSEGE);
+            }
         } else {
-            subjects = programAdepter.findSubjects(program_id, find);
+            if (find.length() == 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, INCORRECT_PARAM);
+            }
+            try {
+                subjects = programAdepter.findSubjects(program_id, find);
+            } catch (HttpClientErrorException error) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, NOT_FOUND_MASSEGE);
+            }
         }
         return new ResponseEntity<List<Subject>>(subjects, HttpStatus.OK);
     }
-    
-//    @RequestMapping(value = "/program/{program_id}/subject", method = RequestMethod.GET)
-//    public ResponseEntity<List<Subject>> getSubjectByProgramId(@PathVariable("program_id") String program_id) {
-//        List<Subject> subjects = programAdepter.getAllSubjectsByProgramId(program_id);
-//        return new ResponseEntity<List<Subject>>(subjects, HttpStatus.OK);
-//    }
 }
