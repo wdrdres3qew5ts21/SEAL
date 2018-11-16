@@ -11,6 +11,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -28,6 +29,7 @@ public class User implements Serializable{
     private long id;
 
     @NotNull
+    @JsonIgnore
     private String password;
 
     @NotNull
