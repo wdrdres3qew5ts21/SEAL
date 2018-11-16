@@ -19,8 +19,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = { "created_at", "updated_at", "hibernateLazyInitializer", "password", "handler" }, allowGetters = true)
 
+@JsonIgnoreProperties(value = { "created_at", "updated_at", "hibernateLazyInitializer", "password", "handler" }, allowGetters = true)
 @Table(name = "user")
 @Entity
 public class User implements Serializable{

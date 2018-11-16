@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import javax.validation.Valid;
-
+@CrossOrigin(origins = "*")
 @RestController
 public class FavoriteController {
 
