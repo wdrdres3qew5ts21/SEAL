@@ -37,16 +37,8 @@ public class UserController {
     public ResponseEntity<HashMap> signInByStudentId(@RequestBody Map<String, String> user_input, HttpServletResponse response) {
         Long userId = Long.parseLong(user_input.get("id").toString());
         String password = user_input.get("password").toString();
-//        User son = new User();
-//        son.setCreated_at(new Date());
-//        son.setDepartment("Information Technology");
-//        son.setFirstname("Supakorn");
-//        son.setLastname("Trakumaiphol");
-//        son.setPassword("wdrdres3qew5ts21");
-//        son.setId(59130500097l);
-//        userRepository.save(son);
         User user = userService.getUserById(userId);
-        System.out.println(user);
+
         HashMap<String, Object> responseData = new HashMap();
 
         if (user != null) {
