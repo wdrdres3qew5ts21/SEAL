@@ -14,7 +14,7 @@ public class FilterConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().authorizeRequests()
             .antMatchers("/").permitAll() // ให้ ทุกหน้าที่ '/' ผ่านได้เลย โดยไม่ต้อง login 
             .antMatchers(HttpMethod.POST, "/user/login").permitAll() // ให้ '/user/login' ที่เป็น post ผ่านได้
-            .anyRequest().authenticated()
+            //.anyRequest().authenticated()
             .and()
             .addFilterBefore(
                     new JWTGenericFilterBean(), // เรียกใช้ JWTGenericFilterBean 
