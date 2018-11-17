@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 
+import seal.SubjectService.Exceptions.NotFoundException;
 import seal.SubjectService.Subject.Subject;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public class ProgramController {
             try {
                 subjects = programAdepter.getAllSubjectsByProgramId(program_id);
             } catch (HttpClientErrorException error) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, NOT_FOUND_MASSEGE);
+                throw new NotFoundException(NOT_FOUND_MASSEGE);
             }
         } else {
             if (find.length() == 0) {
@@ -54,7 +55,7 @@ public class ProgramController {
             try {
                 subjects = programAdepter.findSubjects(program_id, find);
             } catch (HttpClientErrorException error) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, NOT_FOUND_MASSEGE);
+                throw new NotFoundException(NOT_FOUND_MASSEGE);
             }
         }
         return new ResponseEntity<List<Subject>>(subjects, HttpStatus.OK);
