@@ -10,24 +10,29 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 import static java.util.Collections.emptyList;
+import java.util.HashMap;
 
 @Service
 public class TokenAuthenticationService {
 
-    public static long EXPIRATION_TIME = 1000 * 30; // 30 seconds timeout
+    public static long EXPIRATION_TIME = 1000 * 3000; // 30 seconds timeout
     static Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     public String createTokenUser(User user) {
         Date now = new Date();
-        Claims claims = Jwts.claims().setSubject(""+user.getId());
-
+        HashMap<String, Object> userJson = new HashMap<>();
+        userJson.put("userId", user.getId());
+        userJson.put("userImg", user.getImage());
+        userJson.put("userName", user.getFirstname());
+        
         String token = Jwts.builder()
-        .setClaims(claims)
+        .claim("user", userJson)
         .setIssuedAt(now)
         .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
         .signWith(SECRET_KEY)

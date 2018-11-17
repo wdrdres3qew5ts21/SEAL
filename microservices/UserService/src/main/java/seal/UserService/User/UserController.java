@@ -51,9 +51,9 @@ public class UserController {
             password = user_input.get("password").toString();
         } catch (NumberFormatException numberFmtException) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, INCORRECT_USERID_INPUT_FORMAT);
-        } 
+        }
         user = userService.getUserById(userId);
-        
+
         System.out.println(user);
         if (user != null) {
             String userPassword = user.getPassword();
@@ -63,7 +63,7 @@ public class UserController {
                 response.addHeader("Authorization", "Bearer " + token);
                 System.out.println(response.getHeaderNames());
                 responseData.put("status", true);
-                responseData.put("jwtToken", "Bearer " + token);
+                responseData.put("jwtToken",  token);
                 responseData.put("user", user);
                 return new ResponseEntity<HashMap>(responseData, HttpStatus.OK);
             } else {
