@@ -15,9 +15,15 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import java.util.ArrayList;
 
 import static java.util.Collections.emptyList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @Service
 public class TokenAuthenticationService {
@@ -47,17 +53,19 @@ public class TokenAuthenticationService {
         if (token != null) {
             // parse the token.
             String user = null;
-            try{
+            // ถ้าเอา Try Catch ออกมันจะบึ้มแล้ว ใชช้สิทธิต่างๆไมไ่ด้
+            try {
                 user = Jwts.parser() // แปลง token ที่รับมาจาก request ได้ค่า user.getId() ที่เราเก็บไว้
-                    .setSigningKey(SECRET_KEY)
-                    .parseClaimsJws(token.replace("Bearer", ""))//ไม่ต้องมีก็ได้เพราะไม่ใช้ Bearer 
-                    .getBody()
-                    .getSubject();
+                        .setSigningKey(SECRET_KEY)
+                        .parseClaimsJws(token.replace("Bearer", ""))//ไม่ต้องมีก็ได้เพราะไม่ใช้ Bearer 
+                        .getBody()
+                        .getSubject();
+            } catch (JwtException jwtException) {
+                System.out.println("!!! Exception /: " + jwtException.getMessage());
+                System.out.println(user);
+                return null;
+
             }
-            catch(JwtException jwtException){
-                System.out.println(jwtException.getMessage());
-            }
-            
 
             return user != null
                     ? new UsernamePasswordAuthenticationToken(user, null, emptyList())
