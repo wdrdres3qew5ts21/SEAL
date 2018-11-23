@@ -6,7 +6,9 @@ import java.util.Map;
 import javax.persistence.EntityNotFoundException;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,13 +37,14 @@ public class UserController {
     private String NOT_FOUND_PASSWORD = "กรอก PASSWORD ผิด";
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUser() {
+    public ResponseEntity<List<User>> getAllUser(HttpServletRequest request) {
         List<User> user = userService.getAllUsers();
+        TokenAuthenticationService.getAuthentication(request);
         return new ResponseEntity<List<User>>(user, HttpStatus.OK);
     }
 
     @PostMapping(path = "/user/login")
-    public ResponseEntity<HashMap> signInByStudentId(@RequestBody Map<String, String> user_input, HttpServletResponse response) {
+    public ResponseEntity<HashMap> signInByStudentId(@RequestBody Map<String, String> user_input, HttpServletResponse response, HttpServletRequest request) {
         Long userId;
         String password;
         HashMap<String, Object> responseData = new HashMap();
@@ -59,8 +62,8 @@ public class UserController {
             String userPassword = user.getPassword();
             if (userPassword.equals(password)) {
                 String token = tokenAuthenticationService.createTokenUser(user);
-                //response.addCookie(new Cookie("cookie_token", token));
-                response.addHeader("Authorization", "Bearer " + token);
+                response.addCookie(new Cookie("jwt_cookie", token));
+                response.addHeader("Authorization", token);
                 System.out.println(response.getHeaderNames());
                 responseData.put("status", true);
                 responseData.put("jwtToken",  token);
