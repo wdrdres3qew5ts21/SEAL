@@ -57,7 +57,7 @@ public class ProgramController {
             try {
                 subjects = programAdepter.findSubjects(program_id, find);
             } catch (HttpClientErrorException error) {
-                throw new NotFoundException(NOT_FOUND_MASSEGE);
+                throw new NotFoundException(program_id, find);
             }
         }
         return new ResponseEntity<List<Subject>>(subjects, HttpStatus.OK);
