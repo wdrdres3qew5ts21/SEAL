@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
 
+import seal.SubjectService.Exceptions.BadRequestException;
 import seal.SubjectService.Exceptions.NotFoundException;
 import seal.SubjectService.Subject.Subject;
 
@@ -24,8 +25,8 @@ public class ProgramController {
     @Autowired
     private ProgramAdepter programAdepter;
 
-    private static final String NOT_FOUND_MASSEGE = "Subject Not Found";
-    private static final String INCORRECT_PARAM = "Incorrect Parameter";
+    @Autowired
+    private BadRequestException badRequestException;
 
     @RequestMapping(value = "/programs", method = RequestMethod.GET)
     public ResponseEntity<List<Program>> getPrograms() {
@@ -50,7 +51,8 @@ public class ProgramController {
             }
         } else {
             if (find.length() == 0) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, INCORRECT_PARAM);
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, badRequestException.getINCORRECT_PARAM());
+
             }
             try {
                 subjects = programAdepter.findSubjects(program_id, find);
