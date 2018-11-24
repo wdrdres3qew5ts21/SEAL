@@ -18,10 +18,9 @@ public class JWTGenericFilterBean extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        Authentication authentication = TokenAuthenticationService.getAuthentication((HttpServletRequest) request); // รับค่าที่ส่งมา
+        Authentication authentication = TokenAuthenticationService.getAuthentication((HttpServletRequest) request);
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        SecurityContextHolder.getContext().setAuthentication(authentication); // ไอตัวนี้แหละที่หามานานไม่รู้คือไร 5555
-        System.out.println();
+        SecurityContextHolder.getContext().setAuthentication(authentication);
         Enumeration<String> headers = httpRequest.getHeaderNames();
         while (headers.hasMoreElements()) {
             String header = headers.nextElement();
