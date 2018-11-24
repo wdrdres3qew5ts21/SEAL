@@ -34,7 +34,7 @@ public class UserController {
 
     private String INCORRECT_USERID_INPUT_FORMAT = "USER ID ต้องเป็นตัวเลขรหัสนักศึกษาเท่านั้น";
     private String NOT_FOUND_USERID = "ไม่พบ USERID ในระบบ";
-    private String NOT_FOUND_PASSWORD = "กรอก PASSWORD ผิด";
+    private String NOT_FOUND_PASSWORD = "กรอก USERNAME หรือ PASSWORD ผิด";
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUser(HttpServletRequest request) {
