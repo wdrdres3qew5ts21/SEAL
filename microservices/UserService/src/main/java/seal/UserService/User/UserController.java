@@ -38,8 +38,8 @@ public class UserController {
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUser(HttpServletRequest request) {
-        List<User> user = userService.getAllUsers();
         TokenAuthenticationService.getAuthentication(request);
+        List<User> user = userService.getAllUsers();
         return new ResponseEntity<List<User>>(user, HttpStatus.OK);
     }
 
@@ -66,7 +66,7 @@ public class UserController {
                 response.addHeader("Authorization", token);
                 System.out.println(response.getHeaderNames());
                 responseData.put("status", true);
-                responseData.put("jwtToken",  token);
+                responseData.put("jwtToken", token);
                 responseData.put("user", user);
                 return new ResponseEntity<HashMap>(responseData, HttpStatus.OK);
             } else {
