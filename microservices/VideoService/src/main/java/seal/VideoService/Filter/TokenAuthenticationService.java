@@ -1,4 +1,4 @@
-package seal.UserService.User;
+package seal.VideoService.Filter;
 
 import java.security.Key;
 import java.util.Date;
@@ -31,22 +31,6 @@ public class TokenAuthenticationService {
     public static long EXPIRATION_TIME = 1000 * 30; // 30 seconds timeout
     static Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    public String createTokenUser(User user) {
-        Date now = new Date();
-        HashMap<String, Object> userJson = new HashMap<>();
-        userJson.put("userId", user.getId());
-        userJson.put("userImg", user.getImage());
-        userJson.put("userName", user.getFirstname());
-
-        String token = Jwts.builder()
-                .claim("user", userJson)
-                .setIssuedAt(now)
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SECRET_KEY)
-                .compact();
-        return token;
-    }
-
     public static Authentication getAuthentication(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         System.out.println("Get Authentication : " + token);
@@ -57,7 +41,7 @@ public class TokenAuthenticationService {
             try {
                 user = Jwts.parser() // แปลง token ที่รับมาจาก request ได้ค่า user.getId() ที่เราเก็บไว้
                         .setSigningKey(SECRET_KEY)
-                        .parseClaimsJws(token.replace("Bearer ", ""))//ไม่ต้องมีก็ได้เพราะไม่ใช้ Bearer 
+                        .parseClaimsJws(token.replace("Bearer", ""))//ไม่ต้องมีก็ได้เพราะไม่ใช้ Bearer 
                         .getBody()
                         .getSubject();
             } catch (JwtException jwtException) {
