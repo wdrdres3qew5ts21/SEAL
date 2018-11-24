@@ -57,7 +57,7 @@ public class TokenAuthenticationService {
             try {
                 user = Jwts.parser() // แปลง token ที่รับมาจาก request ได้ค่า user.getId() ที่เราเก็บไว้
                         .setSigningKey(SECRET_KEY)
-                        .parseClaimsJws(token.replace("Bearer", ""))//ไม่ต้องมีก็ได้เพราะไม่ใช้ Bearer 
+                        .parseClaimsJws(token.replace("Bearer ", ""))//ไม่ต้องมีก็ได้เพราะไม่ใช้ Bearer 
                         .getBody()
                         .getSubject();
             } catch (JwtException jwtException) {
