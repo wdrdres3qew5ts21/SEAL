@@ -12,6 +12,7 @@ public class ServiceUnavailableException extends RuntimeException {
 
   public ServiceUnavailableException () {
     super("503 Service Unavailable");
+    logger.error("503 Service Unavailable");
   }
 
 }

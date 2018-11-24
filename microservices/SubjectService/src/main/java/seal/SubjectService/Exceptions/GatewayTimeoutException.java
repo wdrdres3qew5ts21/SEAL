@@ -12,6 +12,7 @@ public class GatewayTimeoutException extends RuntimeException {
 
   public GatewayTimeoutException () {
     super("504 Gateway Timeout");
+    logger.error("504 Gateway Timeout");
   }
 
 }

@@ -12,6 +12,7 @@ public class BadGatewayException extends RuntimeException {
 
   public BadGatewayException () {
     super("502 Bad Gateway");
+    logger.error("502 Bad Gateway");
   }
 
 }
