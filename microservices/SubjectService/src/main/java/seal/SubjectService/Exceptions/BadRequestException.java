@@ -9,8 +9,22 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class BadRequestException extends RuntimeException {
   private static final Logger logger = LoggerFactory.getLogger(BadRequestException.class);
 
+  private static final String INCORRECT_PARAM = "Incorrect Parameter";
+  
+  public BadRequestException() {
+      super();
+  }
+
   public BadRequestException (String message) {
     super(message);
     logger.error(message);
   }
+
+
+  public String getINCORRECT_PARAM() {
+    return this.INCORRECT_PARAM;
+  }
+
+
+
 }
