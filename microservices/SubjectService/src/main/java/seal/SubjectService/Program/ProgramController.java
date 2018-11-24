@@ -46,7 +46,7 @@ public class ProgramController {
             try {
                 subjects = programAdepter.getAllSubjectsByProgramId(program_id);
             } catch (HttpClientErrorException error) {
-                throw new NotFoundException(NOT_FOUND_MASSEGE);
+                throw new NotFoundException(program_id);
             }
         } else {
             if (find.length() == 0) {
