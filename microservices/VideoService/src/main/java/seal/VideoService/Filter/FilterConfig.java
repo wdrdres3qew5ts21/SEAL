@@ -9,7 +9,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class FilterConfig extends WebSecurityConfigurerAdapter {
 
-    @Override // ส่วนของ กำหนด filter 
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
             .antMatchers("/").permitAll()
