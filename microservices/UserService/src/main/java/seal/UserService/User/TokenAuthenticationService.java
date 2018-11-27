@@ -1,37 +1,41 @@
 package seal.UserService.User;
 
-import java.security.Key;
-import java.util.Date;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-import java.util.ArrayList;
 
 import static java.util.Collections.emptyList;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.stereotype.Service;
+
 import java.util.HashMap;
-import java.util.List;
-import java.util.logging.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
+
+import java.util.Base64;
+import java.util.Date;
 
 @Service
 public class TokenAuthenticationService {
 
     public static long EXPIRATION_TIME = 1000 * 300000; // 30 seconds timeout
-    static Key SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    
+    //@Value("${authenservice.jwt.secret}")
+    private static String secretKey = "sealsecret";
+    
+     //static Key secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+     
+
+    //    @PostConstruct
+    //    protected void init() {
+    //        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+    //    }
 
     public String createTokenUser(User user) {
+        System.out.println("*****************************************************************************");
+        System.out.println(secretKey);
         Date now = new Date();
         HashMap<String, Object> userJson = new HashMap<>();
         userJson.put("userId", user.getId());
@@ -42,7 +46,7 @@ public class TokenAuthenticationService {
                 .claim("user", userJson)
                 .setIssuedAt(now)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SECRET_KEY)
+                .signWith(SignatureAlgorithm.HS256,Base64.getEncoder().encodeToString(secretKey.getBytes()))
                 .compact();
         return token;
     }
@@ -50,16 +54,18 @@ public class TokenAuthenticationService {
     public static Authentication getAuthentication(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         System.out.println("Get Authentication : " + token);
+        System.out.println("==================================================================================================================="); 
+        System.out.println(secretKey);
         if (token != null) {
             String user = Jwts.parser()
-                    .setSigningKey(SECRET_KEY)
+                    .setSigningKey(Base64.getEncoder().encodeToString(secretKey.getBytes()))
                     .parseClaimsJws(token.replace("Bearer ", ""))
                     .getBody()
                     .getSubject();
 
-            return user != null
-                    ? new UsernamePasswordAuthenticationToken(user, null, emptyList())
-                    : null;
+             return user != null
+                     ? new UsernamePasswordAuthenticationToken(user, null, emptyList())
+                     : null;
         }
         return null;
     }
