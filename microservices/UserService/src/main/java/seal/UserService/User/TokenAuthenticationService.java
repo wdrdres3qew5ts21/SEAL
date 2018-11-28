@@ -32,11 +32,12 @@ public class TokenAuthenticationService {
                 .claim("user", userJson)
                 .setIssuedAt(now)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS256,Base64.getEncoder().encodeToString(secretKey.getBytes()))
+                .signWith(SignatureAlgorithm.HS256, Base64.getEncoder().encodeToString(secretKey.getBytes()))
                 .compact();
         return token;
     }
-        public static Authentication getAuthentication(HttpServletRequest request) {
+
+    public static Authentication validateJWTAuthentication(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         if (token != null) {
             String user = Jwts.parser()
@@ -45,14 +46,14 @@ public class TokenAuthenticationService {
                     .getBody()
                     .getSubject();
 
-             return user != null
-                     ? new UsernamePasswordAuthenticationToken(user, null, emptyList())
-                     : null;
+            return user != null
+                    ? new UsernamePasswordAuthenticationToken(user, null, emptyList())
+                    : null;
         }
         return null;
     }
- 
-//    public static Authentication getAuthentication(HttpServletRequest request) {
+
+//    public static Authentication validateJWTAuthentication(HttpServletRequest request) {
 //        String token = request.getHeader("Authorization");
 //        System.out.println("Get Authentication : " + token);
 //        if (token != null) {
@@ -79,5 +80,4 @@ public class TokenAuthenticationService {
 //        }
 //        return null;
 //    }
-
 }

@@ -39,6 +39,17 @@ public class UserController {
         List<User> user = userService.getAllUsers();
         return new ResponseEntity<List<User>>(user, HttpStatus.OK);
     }
+    
+    @PostMapping("/user/test")
+    public ResponseEntity test(){
+        return new ResponseEntity(HttpStatus.OK);
+    }
+    
+    @PostMapping("/user/lnwza")
+    public ResponseEntity eiei(){
+        return new ResponseEntity(HttpStatus.OK);
+    }
+    
 
     @PostMapping(path = "/user/login")
     public ResponseEntity<HashMap> signInByStudentId(@RequestBody Map<String, String> user_input, HttpServletResponse response, HttpServletRequest request) {
