@@ -12,30 +12,16 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Base64;
 import java.util.Date;
+import static seal.UserService.Filter.GlobalValue.EXPIRATION_TIME;
+import static seal.UserService.Filter.GlobalValue.secretKey;
 
 @Service
 public class TokenAuthenticationService {
 
-    public static long EXPIRATION_TIME = 1000 * 300000; // 30 seconds timeout
-    
-    //@Value("${authenservice.jwt.secret}")
-    private static String secretKey = "sealsecret";
-    
-     //static Key secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-     
-
-    //    @PostConstruct
-    //    protected void init() {
-    //        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
-    //    }
-
     public String createTokenUser(User user) {
-        System.out.println("*****************************************************************************");
-        System.out.println(secretKey);
         Date now = new Date();
         HashMap<String, Object> userJson = new HashMap<>();
         userJson.put("userId", user.getId());
@@ -50,12 +36,8 @@ public class TokenAuthenticationService {
                 .compact();
         return token;
     }
-
         public static Authentication getAuthentication(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
-        System.out.println("Get Authentication : " + token);
-        System.out.println("==================================================================================================================="); 
-        System.out.println(secretKey);
         if (token != null) {
             String user = Jwts.parser()
                     .setSigningKey(Base64.getEncoder().encodeToString(secretKey.getBytes()))
