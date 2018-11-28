@@ -2,9 +2,7 @@ package seal.UserService.Filter;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.GenericFilterBean;
 
-import seal.UserService.User.TokenAuthenticationService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -17,27 +15,22 @@ import javax.servlet.FilterConfig;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.web.server.ResponseStatusException;
+import seal.UserService.Exceptions.BadRequestException;
 
 public class JWTAuthenFilter extends FilterSecurityInterceptor {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        Authentication authentication = TokenAuthenticationService.validateJWTAuthentication((HttpServletRequest) request);
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        Enumeration<String> headers = httpRequest.getHeaderNames();
-
-        while (headers.hasMoreElements()) {
-            String header = headers.nextElement();
-            System.out.println(header + " : " + httpRequest.getHeader(header));
+        try {
+            Authentication authentication = TokenAuthenticationService.validateJWTAuthentication((HttpServletRequest) request);
+            HttpServletRequest httpRequest = (HttpServletRequest) request;
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            
+        } catch (io.jsonwebtoken.SignatureException signatureException) {
+            throw new BadRequestException("JWT Token has been change we dont trust your token !");
         }
-
-        if (httpRequest.getHeader("authorization") != null) {
-            System.out.println("Got Authorization Value");
-            TokenAuthenticationService.validateJWTAuthentication(httpRequest);
-            chain.doFilter(request, response);
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "not jwt");
+        catch(io.jsonwebtoken.ExpiredJwtException signExpiredJwtException){
+            throw new BadRequestException("JWT Token Is Already Timeout Please Login Again !");
         }
 
     }

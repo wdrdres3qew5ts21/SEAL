@@ -23,7 +23,8 @@ public class FilterConfiguration {
         filterRegistrationBean.setFilter(new JWTAuthenFilter());
         ArrayList<String> urlPath = new ArrayList();
         urlPath.add("/users");
-        urlPath.add("/user/*");
+        urlPath.add("/user/test");
+        urlPath.add("/user/lnwza");
         filterRegistrationBean.setUrlPatterns(urlPath);
         return filterRegistrationBean;
     }

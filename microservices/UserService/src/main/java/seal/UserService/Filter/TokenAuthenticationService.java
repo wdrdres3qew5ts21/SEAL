@@ -1,4 +1,4 @@
-package seal.UserService.User;
+package seal.UserService.Filter;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,6 +15,8 @@ import java.util.HashMap;
 
 import java.util.Base64;
 import java.util.Date;
+import seal.UserService.Exceptions.BadRequestException;
+import seal.UserService.User.User;
 import static seal.UserService.Filter.GlobalValue.EXPIRATION_TIME;
 import static seal.UserService.Filter.GlobalValue.secretKey;
 
@@ -49,8 +51,9 @@ public class TokenAuthenticationService {
             return user != null
                     ? new UsernamePasswordAuthenticationToken(user, null, emptyList())
                     : null;
+        }else{
+            throw new BadRequestException("Authorization Header is not found !");
         }
-        return null;
     }
 
 //    public static Authentication validateJWTAuthentication(HttpServletRequest request) {
