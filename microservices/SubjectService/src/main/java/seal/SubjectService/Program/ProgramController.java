@@ -51,7 +51,7 @@ public class ProgramController {
             }
         } else {
             if (find.length() == 0) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, badRequestException.getINCORRECT_PARAM());
+                throw new BadRequestException(badRequestException.getINCORRECT_PARAM());
 
             }
             try {
