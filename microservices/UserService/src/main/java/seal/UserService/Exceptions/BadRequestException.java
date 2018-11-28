@@ -7,24 +7,24 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
 public class BadRequestException extends RuntimeException {
-  private static final Logger logger = LoggerFactory.getLogger(BadRequestException.class);
 
-  private static final String INCORRECT_PARAM = "Incorrect Parameter";
-  
-  public BadRequestException() {
-      super();
-  }
+    private static final Logger logger = LoggerFactory.getLogger(BadRequestException.class);
 
-  public BadRequestException (String message) {
-    super(message);
-    logger.error(message);
-  }
+    private static final String INCORRECT_PARAM = "Incorrect Parameter";
 
+    public BadRequestException() {
+        super();
+        logger.warn("something error");
 
-  public String getINCORRECT_PARAM() {
-    return this.INCORRECT_PARAM;
-  }
+    }
 
+    public BadRequestException(String message) {
+        super(message);
+        logger.error(message);
+    }
 
+    public String getINCORRECT_PARAM() {
+        return this.INCORRECT_PARAM;
+    }
 
 }

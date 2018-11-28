@@ -19,9 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@CrossOrigin
+@CrossOrigin("*")
 @RestController
 public class ProgramController {
+
     @Autowired
     private ProgramAdepter programAdepter;
 
@@ -52,7 +53,6 @@ public class ProgramController {
         } else {
             if (find.length() == 0) {
                 throw new BadRequestException(badRequestException.getINCORRECT_PARAM());
-
             }
             try {
                 subjects = programAdepter.findSubjects(program_id, find);

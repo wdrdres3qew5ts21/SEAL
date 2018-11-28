@@ -10,11 +10,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Enumeration;
 import javax.servlet.FilterConfig;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-import org.springframework.web.server.ResponseStatusException;
 import seal.UserService.Exceptions.BadRequestException;
 
 public class JWTAuthenFilter extends FilterSecurityInterceptor {
