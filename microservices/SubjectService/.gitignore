@@ -24,3 +24,6 @@ manifest.yml
 /dist/
 /nbdist/
 /.nb-gradle/
+
+build.bat
+run.bat
