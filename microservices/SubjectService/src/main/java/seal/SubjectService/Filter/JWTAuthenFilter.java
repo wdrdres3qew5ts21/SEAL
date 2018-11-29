@@ -22,6 +22,7 @@ public class JWTAuthenFilter extends FilterSecurityInterceptor {
             Authentication authentication = TokenAuthenticationService.validateJWTAuthentication((HttpServletRequest) request);
             HttpServletRequest httpRequest = (HttpServletRequest) request;
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            chain.doFilter(request, response);
             
         } catch (io.jsonwebtoken.SignatureException signatureException) {
             throw new BadRequestException("JWT Token has been change we dont trust your token !");

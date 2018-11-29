@@ -3,7 +3,6 @@ package seal.UserService.Filter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -22,11 +21,10 @@ public class JWTAuthenFilter extends FilterSecurityInterceptor {
             Authentication authentication = TokenAuthenticationService.validateJWTAuthentication((HttpServletRequest) request);
             HttpServletRequest httpRequest = (HttpServletRequest) request;
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            
+            chain.doFilter(request, response);
         } catch (io.jsonwebtoken.SignatureException signatureException) {
             throw new BadRequestException("JWT Token has been change we dont trust your token !");
-        }
-        catch(io.jsonwebtoken.ExpiredJwtException signExpiredJwtException){
+        } catch (io.jsonwebtoken.ExpiredJwtException signExpiredJwtException) {
             throw new BadRequestException("JWT Token Is Already Timeout Please Login Again !");
         }
 

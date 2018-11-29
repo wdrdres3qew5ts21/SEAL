@@ -9,6 +9,7 @@ import static java.util.Collections.emptyList;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import java.io.UnsupportedEncodingException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -34,16 +35,18 @@ public class TokenAuthenticationService {
                 .claim("user", userJson)
                 .setIssuedAt(now)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS256, Base64.getEncoder().encodeToString(secretKey.getBytes()))
+                //.signWith(SignatureAlgorithm.HS256, Base64.getEncoder().encodeToString(secretKey.getBytes()))
+                .signWith(SignatureAlgorithm.HS256, secretKey.getBytes())
                 .compact();
         return token;
     }
 
-    public static Authentication validateJWTAuthentication(HttpServletRequest request) {
+    public static Authentication validateJWTAuthentication(HttpServletRequest request) throws UnsupportedEncodingException {
         String token = request.getHeader("Authorization");
         if (token != null) {
+           
             String user = Jwts.parser()
-                    .setSigningKey(Base64.getEncoder().encodeToString(secretKey.getBytes()))
+                    .setSigningKey(Base64.getEncoder().encodeToString(secretKey.getBytes("UTF-8")))
                     .parseClaimsJws(token.replace("Bearer ", ""))
                     .getBody()
                     .getSubject();
