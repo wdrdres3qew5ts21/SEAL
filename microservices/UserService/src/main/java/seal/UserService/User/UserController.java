@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,24 +19,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+import seal.UserService.Exceptions.BadRequestException;
+import seal.UserService.Exceptions.NotFoundException;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class UserController {
-
+    
     @Autowired
     private UserService userService;
-
+    
     @Autowired
     private TokenAuthenticationService tokenAuthenticationService;
-
+    
     @Autowired
     private UserRepository userRepository;
-
+    
+    private Logger logger = LoggerFactory.getLogger(UserController.class);
+    
     private String INCORRECT_USERID_INPUT_FORMAT = "USER ID ต้องเป็นตัวเลขรหัสนักศึกษาเท่านั้น";
     private String NOT_FOUND_USERID = "ไม่พบ USERID ในระบบ";
     private String NOT_FOUND_PASSWORD = "กรอก USERNAME หรือ PASSWORD ผิด";
-
+    
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUser(HttpServletRequest request) {
         List<User> user = userService.getAllUsers();
@@ -42,18 +48,17 @@ public class UserController {
     }
     
     @PostMapping("/user/test")
-    public ResponseEntity test(){
+    public ResponseEntity test() {
         return new ResponseEntity(HttpStatus.OK);
     }
     
     @PostMapping("/user/lnwza")
-    public ResponseEntity eiei(){
+    public ResponseEntity eiei() {
         return new ResponseEntity(HttpStatus.OK);
     }
     
-
     @PostMapping(path = "/user/login")
-    public ResponseEntity<HashMap> signInByStudentId(@RequestBody Map<String, String> user_input, HttpServletResponse response, HttpServletRequest request) {
+    public ResponseEntity<HashMap> signInByStudentId(@RequestBody Map<String, String> user_input, HttpServletResponse response) {
         Long userId;
         String password;
         HashMap<String, Object> responseData = new HashMap();
@@ -62,26 +67,26 @@ public class UserController {
             userId = Long.parseLong(user_input.get("id").toString());
             password = user_input.get("password").toString();
         } catch (NumberFormatException numberFmtException) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, INCORRECT_USERID_INPUT_FORMAT);
+            throw new BadRequestException("User Input Incorrect Pattern !");
         }
         user = userService.getUserById(userId);
-
+        
         System.out.println(user);
         if (user != null) {
             String userPassword = user.getPassword();
             if (userPassword.equals(password)) {
                 String token = tokenAuthenticationService.createTokenUser(user);
-                response.addCookie(new Cookie("jwt_cookie", token));
                 response.addHeader("Authorization", token);
                 System.out.println(response.getHeaderNames());
                 responseData.put("status", true);
                 responseData.put("jwtToken", token);
                 responseData.put("user", user);
+                logger.info("User : " + user.getId() + " Authentication Success !");
                 return new ResponseEntity<HashMap>(responseData, HttpStatus.OK);
             } else {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, NOT_FOUND_PASSWORD);
+                throw new NotFoundException("Authentication User Fail !");
             }
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, NOT_FOUND_USERID);
+        throw new NotFoundException("Authentication User Fail !");
     }
 }

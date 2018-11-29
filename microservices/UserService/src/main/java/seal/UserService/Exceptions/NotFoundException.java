@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class NotFoundException extends RuntimeException {
   private static final Logger logger = LoggerFactory.getLogger(NotFoundException.class);
 
-  public NotFoundException (String progrma_id) {
-    super("'"+progrma_id+"' Not Found!!");
+  public NotFoundException (String userError) {
+    super(userError);
+    logger.warn(userError);
   }
 }
