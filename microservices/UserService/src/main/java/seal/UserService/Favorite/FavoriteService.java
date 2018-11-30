@@ -28,8 +28,10 @@ public class FavoriteService {
     }
 
 
-    public Favorite deleteFavoriteById(Long id) {
+    public Favorite deleteFavoriteById(Long userId,Long id) {
+        User user = userRepository.findById(userId).get();
         Favorite favorite_object = favoriteRepository.findById(id).get();
+        favorite_object.setUser(user);
         favoriteRepository.delete(favorite_object);
         return favorite_object;
     }

@@ -31,10 +31,10 @@ public class FavoriteController {
         return new ResponseEntity<Favorite>(favorite_object, HttpStatus.OK);
     }
 
-    @DeleteMapping("/favorite/{favorite_id:[\\d]}")
-    public ResponseEntity<Favorite> deleteFavorite(@PathVariable(name = "favorite_id") Long id, HttpServletRequest request) {
+    @DeleteMapping("/favorite/{user_id}/{favorite_id}")
+    public ResponseEntity<Favorite> deleteFavorite(@PathVariable(name = "favorite_id") Long id,  @PathVariable(name = "user_id") Long userId, HttpServletRequest request) {
         TokenAuthenticationService.validateJWTAuthentication(request);
-        Favorite favorite_object = favoriteService.deleteFavoriteById(id);
+        Favorite favorite_object = favoriteService.deleteFavoriteById(userId, id);
         return new ResponseEntity<Favorite>(favorite_object, HttpStatus.OK);
     }
 }
