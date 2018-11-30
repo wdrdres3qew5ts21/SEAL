@@ -43,6 +43,7 @@ public class UserController {
     
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUser(HttpServletRequest request) {
+        TokenAuthenticationService.validateJWTAuthentication(request);
         List<User> user = userService.getAllUsers();
         return new ResponseEntity<List<User>>(user, HttpStatus.OK);
     }

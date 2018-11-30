@@ -2,8 +2,6 @@ package seal.UserService.Filter;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 
 import static java.util.Collections.emptyList;
 
