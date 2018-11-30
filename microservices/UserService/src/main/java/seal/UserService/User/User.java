@@ -59,6 +59,18 @@ public class User implements Serializable{
     private Date updated_at;
 
     public User() {
+        
+    }
+
+    public User(long id, String firstname, String lastname, 
+        String department, String faculty, int year, String image){
+            this.id=id;
+            this.firstname=firstname;
+            this.lastname=lastname;
+            this.department=department;
+            this.faculty=faculty;
+            this.year=year;
+            this.image=image;
     }
 
     public long getId() {
