@@ -16,6 +16,8 @@ import java.util.HashMap;
 
 import java.util.Base64;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import seal.UserService.Exceptions.BadRequestException;
 import seal.UserService.User.User;
 import static seal.UserService.Filter.GlobalValue.EXPIRATION_TIME;
@@ -41,21 +43,27 @@ public class TokenAuthenticationService {
         return token;
     }
 
-    public static Authentication validateJWTAuthentication(HttpServletRequest request) throws UnsupportedEncodingException {
+    public static void validateJWTAuthentication(HttpServletRequest request) {
+        System.out.println(secretKey);
         String token = request.getHeader("Authorization");
-        if (token != null) {
-           
-            String user = Jwts.parser()
-                    .setSigningKey(Base64.getEncoder().encodeToString(secretKey.getBytes("UTF-8")))
-                    .parseClaimsJws(token.replace("Bearer ", ""))
-                    .getBody()
-                    .getSubject();
-
-            return user != null
-                    ? new UsernamePasswordAuthenticationToken(user, null, emptyList())
-                    : null;
-        }else{
-            throw new BadRequestException("Authorization Header is not found !");
+        try {
+            if (token != null) {
+                try {
+                    String user = Jwts.parser()
+                            .setSigningKey(Base64.getEncoder().encodeToString(secretKey.getBytes("UTF-8")))
+                            .parseClaimsJws(token.replace("Bearer ", ""))
+                            .getBody()
+                            .getSubject();
+                } catch (UnsupportedEncodingException ex) {
+                    Logger.getLogger(TokenAuthenticationService.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                throw new BadRequestException("Authorization Header is not found !");
+            }
+        } catch (io.jsonwebtoken.SignatureException signatureException) {
+            throw new BadRequestException("JWT Token has been change we dont trust your token !");
+        } catch (io.jsonwebtoken.ExpiredJwtException signExpiredJwtException) {
+            throw new BadRequestException("JWT Token Is Already Timeout Please Login Again !");
         }
     }
 

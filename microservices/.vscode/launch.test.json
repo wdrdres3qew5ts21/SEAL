@@ -1,0 +1,66 @@
+{
+    "run": {
+        "default": "",
+        "items": [
+            {
+                "name": "UserService",
+                "projectName": "UserService",
+                "workingDirectory": "d:\\Project Code\\SEAL\\microservices\\UserService",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            },
+            {
+                "name": "VideoService",
+                "projectName": "VideoService",
+                "workingDirectory": "d:\\Project Code\\SEAL\\microservices\\VideoService",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            },
+            {
+                "name": "SubjectService",
+                "projectName": "SubjectService",
+                "workingDirectory": "d:\\Project Code\\SEAL\\microservices\\SubjectService",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            }
+        ]
+    },
+    "debug": {
+        "default": "",
+        "items": [
+            {
+                "name": "UserService",
+                "projectName": "UserService",
+                "workingDirectory": "d:\\Project Code\\SEAL\\microservices\\UserService",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            },
+            {
+                "name": "VideoService",
+                "projectName": "VideoService",
+                "workingDirectory": "d:\\Project Code\\SEAL\\microservices\\VideoService",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            },
+            {
+                "name": "SubjectService",
+                "projectName": "SubjectService",
+                "workingDirectory": "d:\\Project Code\\SEAL\\microservices\\SubjectService",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            }
+        ]
+    }
+}

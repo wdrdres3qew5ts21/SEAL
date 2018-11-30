@@ -1,4 +1,0 @@
-applications:
-- name: videoservice-seal
-  memory: (Memory that you want)
-  path: target/VideoService-0.0.1-SNAPSHOT.jar
