@@ -61,7 +61,6 @@ public class UserController {
         }
         user = userService.getUserById(userId);
         
-        System.out.println(user);
         if (user != null) {
             String userPassword = user.getPassword();
             if (userPassword.equals(password)) {
