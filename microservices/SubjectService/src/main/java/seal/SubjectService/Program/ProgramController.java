@@ -1,5 +1,6 @@
 package seal.SubjectService.Program;
 
+import java.io.UnsupportedEncodingException;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.server.ResponseStatusException;
@@ -9,17 +10,20 @@ import seal.SubjectService.Exceptions.NotFoundException;
 import seal.SubjectService.Subject.Subject;
 
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import seal.SubjectService.Filter.TokenAuthenticationService;
 
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 @RestController
 public class ProgramController {
 
@@ -29,9 +33,12 @@ public class ProgramController {
     @Autowired
     private BadRequestException badRequestException;
 
-    @RequestMapping(value = "/programs", method = RequestMethod.GET)
-    public ResponseEntity<List<Program>> getPrograms() {
+    @GetMapping("/programs")
+    public ResponseEntity<List<Program>> getPrograms(HttpServletRequest request) {
+        TokenAuthenticationService.validateJWTAuthentication(request);
+        System.out.println("programs controller : "+request.getHeader("Authorization"));
         List<Program> programs = programAdepter.getAllProgramsDetail();
+        System.out.println(programs.toString());
         return new ResponseEntity<List<Program>>(programs, HttpStatus.OK);
     }
 
@@ -41,8 +48,10 @@ public class ProgramController {
     )
     public ResponseEntity<List<Subject>> findSubjects(
             @PathVariable("program_id") String program_id,
-            @RequestParam(name = "find", required = false) String find
+            @RequestParam(name = "find", required = false) String find,
+            HttpServletRequest request
     ) {
+        TokenAuthenticationService.validateJWTAuthentication(request);
         List<Subject> subjects = null;
         if (find == null) {
             try {

@@ -14,10 +14,10 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author top
  */
-@Configuration
+//@Configuration
 public class FilterConfiguration {
 
-    @Bean
+   // @Bean
     public FilterRegistrationBean<JWTAuthenFilter> jwtAuthenticationFilter() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         filterRegistrationBean.setFilter(new JWTAuthenFilter());

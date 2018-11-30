@@ -14,18 +14,18 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author top
  */
-@Configuration
+//@Configuration
 public class FilterConfiguration {
 
-    @Bean
-    public FilterRegistrationBean<JWTAuthenFilter> jwtAuthenticationFilter() {
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-        filterRegistrationBean.setFilter(new JWTAuthenFilter());
-        ArrayList<String> urlPath = new ArrayList();
-        urlPath.add("/comments");
-        urlPath.add("/video/*");
-        filterRegistrationBean.setUrlPatterns(urlPath);
-        return filterRegistrationBean;
-    }
+    //@Bean
+//    public FilterRegistrationBean<JWTAuthenFilter> jwtAuthenticationFilter() {
+//        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+//        filterRegistrationBean.setFilter(new JWTAuthenFilter());
+//        ArrayList<String> urlPath = new ArrayList();
+//        urlPath.add("/comments");
+//        urlPath.add("/video/*");
+//        filterRegistrationBean.setUrlPatterns(urlPath);
+//        return filterRegistrationBean;
+//    }
 
 }

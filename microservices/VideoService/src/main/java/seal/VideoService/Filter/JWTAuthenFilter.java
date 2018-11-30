@@ -1,7 +1,5 @@
 package seal.VideoService.Filter;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 
 import javax.servlet.FilterChain;
@@ -11,9 +9,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import javax.servlet.FilterConfig;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import seal.VideoService.Exceptions.BadRequestException;
-
+/**
 public class JWTAuthenFilter extends FilterSecurityInterceptor {
 
     @Override
@@ -44,3 +41,4 @@ public class JWTAuthenFilter extends FilterSecurityInterceptor {
     }
 
 }
+*/
