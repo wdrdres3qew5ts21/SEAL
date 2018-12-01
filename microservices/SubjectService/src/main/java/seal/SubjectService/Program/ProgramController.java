@@ -22,13 +22,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import seal.SubjectService.Filter.TokenAuthenticationService;
+import seal.SubjectService.Subject.SubjectAdapter;
 
 @CrossOrigin(origins = "*")
 @RestController
 public class ProgramController {
 
     @Autowired
-    private ProgramAdepter programAdepter;
+    private ProgramAdapter programAdapter;
+    
+    @Autowired
+    private SubjectAdapter subjectAdapter;
 
     @Autowired
     private BadRequestException badRequestException;
@@ -37,9 +41,15 @@ public class ProgramController {
     public ResponseEntity<List<Program>> getPrograms(HttpServletRequest request) {
         TokenAuthenticationService.validateJWTAuthentication(request);
         System.out.println("programs controller : "+request.getHeader("Authorization"));
-        List<Program> programs = programAdepter.getAllProgramsDetail();
+        List<Program> programs = programAdapter.getAllProgramsDetail();
         System.out.println(programs.toString());
         return new ResponseEntity<List<Program>>(programs, HttpStatus.OK);
+    }
+    
+    @GetMapping("/subject/{subjectId}")
+    public ResponseEntity<Subject> findSubjectById(@PathVariable int subjectId){
+        Subject subject = subjectAdapter.findSubjectById(subjectId);
+        return new ResponseEntity<Subject>(subject, HttpStatus.OK);
     }
 
     @RequestMapping(
@@ -55,7 +65,7 @@ public class ProgramController {
         List<Subject> subjects = null;
         if (find == null) {
             try {
-                subjects = programAdepter.getAllSubjectsByProgramId(program_id);
+                subjects = programAdapter.getAllSubjectsByProgramId(program_id);
             } catch (HttpClientErrorException error) {
                 throw new NotFoundException(program_id);
             }
@@ -64,7 +74,7 @@ public class ProgramController {
                 throw new BadRequestException(badRequestException.getINCORRECT_PARAM());
             }
             try {
-                subjects = programAdepter.findSubjects(program_id, find);
+                subjects = programAdapter.findSubjects(program_id, find);
             } catch (HttpClientErrorException error) {
                 throw new NotFoundException(program_id, find);
             }

@@ -11,23 +11,23 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import seal.SubjectService.Program.Program;
-import seal.SubjectService.Program.ProgramAdepter;
+import seal.SubjectService.Program.ProgramAdapter;
 import seal.SubjectService.Subject.Subject;
 
 @RunWith(MockitoJUnitRunner.class)
 @SpringBootConfiguration
-@SpringBootTest(classes=ProgramAdepter.class)
+@SpringBootTest(classes=ProgramAdapter.class)
 public class SubjectServiceApplicationTests {
         
     @Mock
-	private ProgramAdepter programAdepter;
+	private ProgramAdapter programAdepter;
 
 	private List<Subject> subjects;
 	private List<Program> programs;
 
 	@Before
 	public void setUp(){
-        this.programAdepter = new ProgramAdepter();
+        this.programAdepter = new ProgramAdapter();
                 
 		subjects = new ArrayList<>();
 		subjects.add(new Subject("44", "Web Programming", "INT303", ""));

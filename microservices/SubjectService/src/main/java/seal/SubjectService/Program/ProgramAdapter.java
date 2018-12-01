@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import seal.SubjectService.Subject.Subject;
 
 @Service
-public class ProgramAdepter {
+public class ProgramAdapter {
     private static final String PREFIX = "https://ngelearning.sit.kmutt.ac.th/api/v0/program/";
 
     
