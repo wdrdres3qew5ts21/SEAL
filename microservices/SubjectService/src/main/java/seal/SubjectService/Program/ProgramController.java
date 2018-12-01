@@ -30,9 +30,7 @@ public class ProgramController {
 
     @Autowired
     private ProgramAdapter programAdapter;
-    
-    @Autowired
-    private SubjectAdapter subjectAdapter;
+
 
     @Autowired
     private BadRequestException badRequestException;
@@ -46,11 +44,6 @@ public class ProgramController {
         return new ResponseEntity<List<Program>>(programs, HttpStatus.OK);
     }
     
-    @GetMapping("/subject/{subjectId}")
-    public ResponseEntity<Subject> findSubjectById(@PathVariable int subjectId){
-        Subject subject = subjectAdapter.findSubjectById(subjectId);
-        return new ResponseEntity<Subject>(subject, HttpStatus.OK);
-    }
 
     @RequestMapping(
             value = "/program/{program_id}/subjects",
