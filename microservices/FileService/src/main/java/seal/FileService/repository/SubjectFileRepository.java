@@ -5,6 +5,7 @@
  */
 package seal.FileService.repository;
 
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import seal.FileService.model.SubjectFile;
@@ -15,5 +16,7 @@ import seal.FileService.model.SubjectFile;
  */
 @Repository
 public interface SubjectFileRepository extends JpaRepository<SubjectFile, Integer> {
+    
+    public List<SubjectFile> findBySubjectId(String subjectId);
     
 }

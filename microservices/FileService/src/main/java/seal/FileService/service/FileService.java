@@ -29,13 +29,18 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import seal.FileService.model.SubjectFile;
+import seal.FileService.repository.SubjectFileRepository;
 
 @Service
-public class AmazonClient {
+public class FileService {
 
     private AmazonS3 s3client;
+
+    private SubjectFileRepository subjectFileRepository;
 
     @Value("${amazonProperties.endpointUrl}")
     private String endpointUrl;
@@ -45,24 +50,6 @@ public class AmazonClient {
     private String accessKey;
     @Value("${amazonProperties.secretKey}")
     private String secretKey;
-
-    @PostConstruct
-    private void initializeAmazon() {
-        System.out.println("Endpoint : " + endpointUrl);
-        System.out.println("Bucketname : " + bucketName);
-        System.out.println("AccessKey : " + accessKey);
-        System.out.println("Secret Key : " + secretKey);
-        System.out.println("---------------------------------------------------------------");
-        AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
-        this.s3client = new AmazonS3Client(credentials);
-        // ObjectListing listObjects = this.s3client.listObjects(bucketName, "L"); หาไฟล์ตาม Keyword
-        ObjectListing listObjects = this.s3client.listObjects(bucketName);
-        for (S3ObjectSummary objectSummary : listObjects.getObjectSummaries()) {
-            System.out.println(" - " + objectSummary.getKey() + "  "
-                    + "(size = " + objectSummary.getSize() + ") "
-            );
-        }
-    }
 
     public String uploadFile(MultipartFile multipartFile) {
         String fileUrl = "";
@@ -77,6 +64,28 @@ public class AmazonClient {
             return e.getMessage();
         }
         return fileUrl;
+    }
+
+    public String deleteFileFromS3Bucket(String fileUrl) {
+        try {
+            String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
+            System.out.println(fileName);
+            fileName = URLDecoder.decode(fileName, "UTF-8");
+            System.out.println("File Name : " + fileName);
+            s3client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
+            return "Successfully deleted";
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(FileService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "Delete Failed !!!";
+    }
+
+    public List<SubjectFile> findAllFiles() {
+        return subjectFileRepository.findAll();
+    }
+    
+    public List<SubjectFile> findBySubjectId(String subjectId){
+        return subjectFileRepository.findBySubjectId(subjectId);
     }
 
     private File convertMultiPartToFile(MultipartFile file) throws IOException {
@@ -96,18 +105,22 @@ public class AmazonClient {
                 .withCannedAcl(CannedAccessControlList.PublicRead));
     }
 
-    public String deleteFileFromS3Bucket(String fileUrl) {
-        try {
-            String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
-            System.out.println(fileName);
-            fileName = URLDecoder.decode(fileName, "UTF-8");
-            System.out.println("File Name : " + fileName);
-            s3client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
-            return "Successfully deleted";
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(AmazonClient.class.getName()).log(Level.SEVERE, null, ex);
+    @PostConstruct
+    private void initializeAmazon() {
+        System.out.println("Endpoint : " + endpointUrl);
+        System.out.println("Bucketname : " + bucketName);
+        System.out.println("AccessKey : " + accessKey);
+        System.out.println("Secret Key : " + secretKey);
+        System.out.println("---------------------------------------------------------------");
+        AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
+        this.s3client = new AmazonS3Client(credentials);
+        // ObjectListing listObjects = this.s3client.listObjects(bucketName, "L"); หาไฟล์ตาม Keyword
+        ObjectListing listObjects = this.s3client.listObjects(bucketName);
+        for (S3ObjectSummary objectSummary : listObjects.getObjectSummaries()) {
+            System.out.println(" - " + objectSummary.getKey() + "  "
+                    + "(size = " + objectSummary.getSize() + ") "
+            );
         }
-        return "Delete Failed !!!";
     }
-    
+
 }

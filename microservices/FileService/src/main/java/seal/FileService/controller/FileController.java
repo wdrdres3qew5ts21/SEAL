@@ -5,6 +5,7 @@
  */
 package seal.FileService.controller;
 
+import seal.FileService.service.FileService;
 import java.util.HashMap;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import seal.FileService.model.SubjectFile;
-import seal.FileService.service.AmazonClient;
+import seal.FileService.service.FileService;
 
 /**
  *
@@ -31,23 +32,22 @@ import seal.FileService.service.AmazonClient;
 public class FileController {
 
     @Autowired
-    private AmazonClient amazonClient;
-
+    private FileService fileService;
+    
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestPart(value = "file") MultipartFile file) {
-        return new ResponseEntity<String>(this.amazonClient.uploadFile(file), HttpStatus.CREATED);
+        return new ResponseEntity<String>(this.fileService.uploadFile(file), HttpStatus.CREATED);
     }
     
     @GetMapping("/files")
     public ResponseEntity<List<SubjectFile>> getAllFiles(){
-      //  return new ResponseEntity<>(amazonClient);
-      return null;
+        return new ResponseEntity<List<SubjectFile>>(fileService.findAllFiles(), HttpStatus.OK);
     }
     
     @DeleteMapping("/delete")
     public String deleteFile(@RequestBody HashMap<String, String> deletedFile) {
         String fileUrl = deletedFile.get("fileUrl");
-        return this.amazonClient.deleteFileFromS3Bucket(fileUrl);
+        return this.fileService.deleteFileFromS3Bucket(fileUrl);
     }
     
 }

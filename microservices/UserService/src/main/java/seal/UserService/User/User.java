@@ -43,6 +43,8 @@ public class User implements Serializable{
 
     //@NotNull
     private String faculty;
+    
+    private String role;
 
     //@NotNull
     private int year;
@@ -72,6 +74,16 @@ public class User implements Serializable{
             this.year=year;
             this.image=image;
     }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+    
+    
 
     public long getId() {
         return id;
@@ -155,7 +167,8 @@ public class User implements Serializable{
 
     @Override
     public String toString() {
-        return "User{" + "id=" + id + ", password=" + password + ", firstname=" + firstname + ", lastname=" + lastname + ", department=" + department + ", faculty=" + faculty + ", year=" + year + ", image=" + image + ", created_at=" + created_at + ", updated_at=" + updated_at + '}';
+        return "User{" + "id=" + id + ", password=" + password + ", firstname=" + firstname + ", lastname=" + lastname + ", department=" + department + ", faculty=" + faculty + ", role=" + role + ", year=" + year + ", image=" + image + ", created_at=" + created_at + ", updated_at=" + updated_at + '}';
     }
-    
+
+  
 }

@@ -22,16 +22,10 @@ public class SubjectFile implements Serializable {
     @Size(max = 400)
     private String fileUrl;
     
-    private int subjectId;
+    private String subjectId;
 
     public SubjectFile() {
         
-    }
-
-    public SubjectFile(int id, String fileUrl, int subjectId) {
-        this.id = id;
-        this.fileUrl = fileUrl;
-        this.subjectId = subjectId;
     }
 
     public int getId() {
@@ -50,13 +44,14 @@ public class SubjectFile implements Serializable {
         this.fileUrl = fileUrl;
     }
 
-    public int getSubjectId() {
+    public String getSubjectId() {
         return subjectId;
     }
 
-    public void setSubjectId(int subjectId) {
+    public void setSubjectId(String subjectId) {
         this.subjectId = subjectId;
     }
+    
 
     @Override
     public String toString() {
