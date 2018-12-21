@@ -1,0 +1,12 @@
+amazonProperties:
+  endpointUrl: https://s3-ap-southeast-1.amazonaws.com
+  accessKey: AKIAJ2S6WJEVAXB5RRHQ
+  secretKey: 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
+  bucketName: elearning-file-warehouse
+ 
+spring:
+    servlet:
+        multipart:
+            max-file-size: 9999999999
+            max-request-size: 9999999999
+     
