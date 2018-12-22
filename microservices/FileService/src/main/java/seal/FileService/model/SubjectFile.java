@@ -18,18 +18,20 @@ import javax.validation.constraints.Size;
  */
 @Entity
 public class SubjectFile implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
+
     @Size(max = 400)
     private String fileUrl;
-    
+
     private String subjectId;
 
+    private String fileName;
+
     public SubjectFile() {
-        
+
     }
 
     public int getId() {
@@ -55,11 +57,18 @@ public class SubjectFile implements Serializable {
     public void setSubjectId(String subjectId) {
         this.subjectId = subjectId;
     }
-    
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
     @Override
     public String toString() {
-        return "SubjectFile{" + "id=" + id + ", fileUrl=" + fileUrl + ", subjectId=" + subjectId + '}';
+        return "SubjectFile{" + "id=" + id + ", fileUrl=" + fileUrl + ", subjectId=" + subjectId + ", fileName=" + fileName + '}';
     }
-    
+
 }
