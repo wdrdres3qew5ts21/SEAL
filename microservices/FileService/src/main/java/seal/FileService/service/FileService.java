@@ -55,9 +55,10 @@ public class FileService {
 
     public SubjectFile uploadFile(MultipartFile multipartFile, String subjectId) {
         String fileUrl = "";
+        String fileName="";
         try {
             File file = convertMultiPartToFile(multipartFile);
-            String fileName = generateFileName(multipartFile);
+            fileName = generateFileName(multipartFile);
             fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
             this.uploadFileTos3bucket(fileName, file);
             file.delete();
@@ -67,6 +68,7 @@ public class FileService {
         SubjectFile subjectFile = new SubjectFile();
         subjectFile.setFileUrl(fileUrl);
         subjectFile.setSubjectId(subjectId);
+        subjectFile.setFileName(fileName);
         System.out.println(subjectFile);
         return subjectFileRepository.save(subjectFile);
     }
