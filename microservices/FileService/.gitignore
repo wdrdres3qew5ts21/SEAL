@@ -1,5 +1,8 @@
 /target/
 !.mvn/wrapper/maven-wrapper.jar
+manifest.yml
+build.bat
+run.bat
 
 ### STS ###
 .apt_generated

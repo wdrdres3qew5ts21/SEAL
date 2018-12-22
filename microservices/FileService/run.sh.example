@@ -1,0 +1,3 @@
+#!/bin/bash
+
+java -jar target/SubjectService-0.0.1-SNAPSHOT.jar --SECRET_KEY=

@@ -1,0 +1,4 @@
+applications:
+- name: url
+  memory: (Memory that you want in MB)
+  path: target/SubjectService-0.0.1-SNAPSHOT.jar

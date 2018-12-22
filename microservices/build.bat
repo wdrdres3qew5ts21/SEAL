@@ -1,0 +1,1 @@
+mvnw clean package -D spring.datasource.url=jdbc:mysql://db.phornlert.me:3306/sealuser  -D spring.datasource.username=sealuser  -D spring.datasource.password=w0domLx9wwZptZeL  -D authenservice.jwt.secret=sealeiei
