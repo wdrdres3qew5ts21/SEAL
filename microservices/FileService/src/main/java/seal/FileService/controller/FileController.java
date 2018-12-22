@@ -39,35 +39,37 @@ public class FileController {
 
     @Autowired
     private FileService fileService;
-    
-    
-    
+
     @PostMapping("/upload")
     public ResponseEntity<SubjectFile> uploadFile(@RequestPart(value = "file") MultipartFile file, @RequestParam(value = "subjectId") int subjectId, HttpServletRequest request) {
-        System.out.println(request.getHeader("Authorization"));
         Claims user = TokenAuthenticationService.validateJWTAuthentication(request);
         TokenAuthenticationService.validateIsUserRoleTeacher(user);
         return new ResponseEntity<SubjectFile>(this.fileService.uploadFile(file, subjectId), HttpStatus.CREATED);
     }
-    
+
     @GetMapping("/files")
-    public ResponseEntity<List<SubjectFile>> getAllFiles(){
+    public ResponseEntity<List<SubjectFile>> getAllFiles(HttpServletRequest request) {
+        TokenAuthenticationService.validateJWTAuthentication(request);
         return new ResponseEntity<List<SubjectFile>>(fileService.findAllFiles(), HttpStatus.OK);
     }
-    
+
     @GetMapping("/files/{fileId}")
-    public ResponseEntity<SubjectFile> getFilesById(@PathVariable int fileId){
+    public ResponseEntity<SubjectFile> getFilesById(@PathVariable int fileId, HttpServletRequest request) {
+        TokenAuthenticationService.validateJWTAuthentication(request);
         return new ResponseEntity<SubjectFile>(fileService.findById(fileId), HttpStatus.OK);
     }
-    
+
     @GetMapping("/files/subject/{subjectId}")
-    public ResponseEntity<List<SubjectFile>> getFilesBySubjectId(@PathVariable int subjectId){
+    public ResponseEntity<List<SubjectFile>> getFilesBySubjectId(@PathVariable int subjectId, HttpServletRequest request) {
+        TokenAuthenticationService.validateJWTAuthentication(request);
         return new ResponseEntity<List<SubjectFile>>(fileService.findBySubjectId(subjectId), HttpStatus.OK);
     }
-    
+
     @DeleteMapping("/delete/{fileId}")
-    public SubjectFile deleteFile(@PathVariable String fileId) {
+    public SubjectFile deleteFile(@PathVariable String fileId, HttpServletRequest request) {
+        Claims user = TokenAuthenticationService.validateJWTAuthentication(request);
+        TokenAuthenticationService.validateIsUserRoleTeacher(user);
         return this.fileService.deleteFileFromS3Bucket(fileId);
     }
-    
+
 }
