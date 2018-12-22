@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import seal.FileService.model.SubjectFile;
 import seal.FileService.repository.SubjectFileRepository;
 
@@ -40,6 +41,7 @@ public class FileService {
 
     private AmazonS3 s3client;
 
+    @Autowired
     private SubjectFileRepository subjectFileRepository;
 
     @Value("${amazonProperties.endpointUrl}")
@@ -51,7 +53,7 @@ public class FileService {
     @Value("${amazonProperties.secretKey}")
     private String secretKey;
 
-    public String uploadFile(MultipartFile multipartFile) {
+    public SubjectFile uploadFile(MultipartFile multipartFile, String subjectId) {
         String fileUrl = "";
         try {
             File file = convertMultiPartToFile(multipartFile);
@@ -61,30 +63,41 @@ public class FileService {
             file.delete();
         } catch (Exception e) {
             e.printStackTrace();
-            return e.getMessage();
         }
-        return fileUrl;
+        SubjectFile subjectFile = new SubjectFile();
+        subjectFile.setFileUrl(fileUrl);
+        subjectFile.setSubjectId(subjectId);
+        System.out.println(subjectFile);
+        return subjectFileRepository.save(subjectFile);
     }
 
-    public String deleteFileFromS3Bucket(String fileUrl) {
+    public SubjectFile deleteFileFromS3Bucket(String fileId) {
         try {
-            String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
+            SubjectFile deletedFile = subjectFileRepository.findById(Integer.parseInt(fileId)).get();
+            String fileUrl = deletedFile.getFileUrl();
+            System.out.println("Deleted : " + deletedFile);
+            String fileName = deletedFile.getFileUrl().substring(fileUrl.lastIndexOf("/") + 1);
             System.out.println(fileName);
             fileName = URLDecoder.decode(fileName, "UTF-8");
             System.out.println("File Name : " + fileName);
             s3client.deleteObject(new DeleteObjectRequest(bucketName, fileName));
-            return "Successfully deleted";
+            subjectFileRepository.delete(deletedFile);
+            return deletedFile;
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(FileService.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "Delete Failed !!!";
+        return null;
+    }
+
+    public SubjectFile findById(int fileId) {
+        return subjectFileRepository.getOne(fileId);
     }
 
     public List<SubjectFile> findAllFiles() {
         return subjectFileRepository.findAll();
     }
-    
-    public List<SubjectFile> findBySubjectId(String subjectId){
+
+    public List<SubjectFile> findBySubjectId(String subjectId) {
         return subjectFileRepository.findBySubjectId(subjectId);
     }
 

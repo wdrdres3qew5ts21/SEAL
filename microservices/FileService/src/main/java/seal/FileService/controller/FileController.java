@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,8 +36,8 @@ public class FileController {
     private FileService fileService;
     
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestPart(value = "file") MultipartFile file) {
-        return new ResponseEntity<String>(this.fileService.uploadFile(file), HttpStatus.CREATED);
+    public ResponseEntity<SubjectFile> uploadFile(@RequestPart(value = "file") MultipartFile file,@ RequestPart String subjectId) {
+        return new ResponseEntity<SubjectFile>(this.fileService.uploadFile(file, subjectId), HttpStatus.CREATED);
     }
     
     @GetMapping("/files")
@@ -44,10 +45,19 @@ public class FileController {
         return new ResponseEntity<List<SubjectFile>>(fileService.findAllFiles(), HttpStatus.OK);
     }
     
-    @DeleteMapping("/delete")
-    public String deleteFile(@RequestBody HashMap<String, String> deletedFile) {
-        String fileUrl = deletedFile.get("fileUrl");
-        return this.fileService.deleteFileFromS3Bucket(fileUrl);
+    @GetMapping("/files/subject/{fileId}")
+    public ResponseEntity<SubjectFile> getFilesById(@PathVariable int fileId){
+        return new ResponseEntity<SubjectFile>(fileService.findById(fileId), HttpStatus.OK);
+    }
+    
+    @GetMapping("/files/subject/{subjectId}")
+    public ResponseEntity<List<SubjectFile>> getFilesBySubjectId(@PathVariable String subjectId){
+        return new ResponseEntity<List<SubjectFile>>(fileService.findBySubjectId(subjectId), HttpStatus.OK);
+    }
+    
+    @DeleteMapping("/delete/{fileId}")
+    public SubjectFile deleteFile(@PathVariable String fileId) {
+        return this.fileService.deleteFileFromS3Bucket(fileId);
     }
     
 }
