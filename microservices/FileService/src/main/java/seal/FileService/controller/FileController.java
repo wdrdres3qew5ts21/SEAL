@@ -36,7 +36,7 @@ public class FileController {
     private FileService fileService;
     
     @PostMapping("/upload")
-    public ResponseEntity<SubjectFile> uploadFile(@RequestPart(value = "file") MultipartFile file,@ RequestPart String subjectId) {
+    public ResponseEntity<SubjectFile> uploadFile(@RequestPart(value = "file") MultipartFile file,@ RequestPart int subjectId) {
         return new ResponseEntity<SubjectFile>(this.fileService.uploadFile(file, subjectId), HttpStatus.CREATED);
     }
     
@@ -45,13 +45,13 @@ public class FileController {
         return new ResponseEntity<List<SubjectFile>>(fileService.findAllFiles(), HttpStatus.OK);
     }
     
-    @GetMapping("/files/subject/{fileId}")
+    @GetMapping("/files/{fileId}")
     public ResponseEntity<SubjectFile> getFilesById(@PathVariable int fileId){
         return new ResponseEntity<SubjectFile>(fileService.findById(fileId), HttpStatus.OK);
     }
     
     @GetMapping("/files/subject/{subjectId}")
-    public ResponseEntity<List<SubjectFile>> getFilesBySubjectId(@PathVariable String subjectId){
+    public ResponseEntity<List<SubjectFile>> getFilesBySubjectId(@PathVariable int subjectId){
         return new ResponseEntity<List<SubjectFile>>(fileService.findBySubjectId(subjectId), HttpStatus.OK);
     }
     

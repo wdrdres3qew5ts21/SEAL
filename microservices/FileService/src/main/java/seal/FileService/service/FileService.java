@@ -53,7 +53,7 @@ public class FileService {
     @Value("${amazonProperties.secretKey}")
     private String secretKey;
 
-    public SubjectFile uploadFile(MultipartFile multipartFile, String subjectId) {
+    public SubjectFile uploadFile(MultipartFile multipartFile, int subjectId) {
         String fileUrl = "";
         String fileName="";
         try {
@@ -99,7 +99,7 @@ public class FileService {
         return subjectFileRepository.findAll();
     }
 
-    public List<SubjectFile> findBySubjectId(String subjectId) {
+    public List<SubjectFile> findBySubjectId(int subjectId) {
         return subjectFileRepository.findBySubjectId(subjectId);
     }
 

@@ -30,6 +30,7 @@ public class TokenAuthenticationService {
         userJson.put("userId", user.getId());
         userJson.put("userImg", user.getImage());
         userJson.put("userName", user.getFirstname());
+        userJson.put("role", user.getRole());
 
         String token = Jwts.builder()
                 .claim("user", userJson)

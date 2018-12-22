@@ -17,6 +17,6 @@ import seal.FileService.model.SubjectFile;
 @Repository
 public interface SubjectFileRepository extends JpaRepository<SubjectFile, Integer> {
     
-    public List<SubjectFile> findBySubjectId(String subjectId);
+    public List<SubjectFile> findBySubjectId(int subjectId);
     
 }

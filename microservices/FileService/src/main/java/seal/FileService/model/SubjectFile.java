@@ -26,7 +26,7 @@ public class SubjectFile implements Serializable {
     @Size(max = 400)
     private String fileUrl;
 
-    private String subjectId;
+    private int subjectId;
 
     private String fileName;
 
@@ -50,11 +50,11 @@ public class SubjectFile implements Serializable {
         this.fileUrl = fileUrl;
     }
 
-    public String getSubjectId() {
+    public int getSubjectId() {
         return subjectId;
     }
 
-    public void setSubjectId(String subjectId) {
+    public void setSubjectId(int subjectId) {
         this.subjectId = subjectId;
     }
 
@@ -68,7 +68,7 @@ public class SubjectFile implements Serializable {
 
     @Override
     public String toString() {
-        return "SubjectFile{" + "id=" + id + ", fileUrl=" + fileUrl + ", subjectId=" + subjectId + ", fileName=" + fileName + '}';
+        return "SubjectFile{" + "id=" + id + ", fileUrl=" + fileUrl + ", subjectId=" + subjectId + ", fileName=" + fileName + " '}'";
     }
 
 }
