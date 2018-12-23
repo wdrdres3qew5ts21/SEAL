@@ -1,5 +1,6 @@
 package seal.UserService.Favorite;
 
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,11 +27,14 @@ public class FavoriteController {
     
     @PutMapping("/user/{user_id}/read/notification")
     public ResponseEntity<Favorite> userReadNotification(@PathVariable(name = "user_id") Long userId, @RequestBody Favorite favorite, HttpServletRequest request){
+        TokenAuthenticationService.validateJWTAuthentication(request);
         return new ResponseEntity<Favorite>(favoriteService.userReadNotification(userId, favorite), HttpStatus.OK);
     }
     
     @PutMapping("/subject/{subject_id}/updatefile")
     public ResponseEntity<List<Favorite>> subjectFileHadBeenUpdateByTeacher(@PathVariable(name = "subject_id") int subjectId, HttpServletRequest request){
+        Claims user = TokenAuthenticationService.validateJWTAuthentication(request);
+        TokenAuthenticationService.validateIsUserRoleTeacher(user);
         return new ResponseEntity<List<Favorite>>(favoriteService.subjectFileHadBeenUpdateByTeacher(subjectId), HttpStatus.OK);
     }
     
