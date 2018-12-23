@@ -23,7 +23,17 @@ public class FavoriteController {
         List<Favorite> favorites = favoriteService.getFavoriteByUserId(userId);
         return new ResponseEntity<List<Favorite>>(favorites, HttpStatus.OK);
     }
-
+    
+    @PutMapping("/user/{user_id}/read/notification")
+    public ResponseEntity<Favorite> userReadNotification(@PathVariable(name = "user_id") Long userId, @RequestBody Favorite favorite, HttpServletRequest request){
+        return new ResponseEntity<Favorite>(favoriteService.userReadNotification(userId, favorite), HttpStatus.OK);
+    }
+    
+    @PutMapping("/subject/{subject_id}/updatefile")
+    public ResponseEntity<List<Favorite>> subjectFileHadBeenUpdateByTeacher(@PathVariable(name = "subject_id") int subjectId, HttpServletRequest request){
+        return new ResponseEntity<List<Favorite>>(favoriteService.subjectFileHadBeenUpdateByTeacher(subjectId), HttpStatus.OK);
+    }
+    
     @PostMapping("/favorite/user/{user_id}/subject")
     public ResponseEntity<Favorite> createFavorite(@PathVariable(name = "user_id") Long userId,  @Valid @RequestBody Favorite favorite, HttpServletRequest request) {
         TokenAuthenticationService.validateJWTAuthentication(request);

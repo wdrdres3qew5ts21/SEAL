@@ -26,11 +26,10 @@ public class Favorite implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name="user_id")
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @JsonIgnore
+    //@JsonIgnore
     private User user;
 
     @NotBlank
@@ -47,7 +46,10 @@ public class Favorite implements Serializable {
     @Column(name = "updated_at")
     private Date updatedAt;
 
+    private boolean isSomeThingUpdate;
+
     public Favorite() {
+
     }
 
     public Favorite(long id, User user, String subjectId, Date createdAt, Date updatedAt) {
@@ -82,6 +84,10 @@ public class Favorite implements Serializable {
         this.subjectId = subjectId;
     }
 
+    public void setSubjectId(int subjectId) {
+        this.subjectId = "" + subjectId;
+    }
+
     public Date getCreatedAt() {
         return this.createdAt;
     }
@@ -97,4 +103,18 @@ public class Favorite implements Serializable {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    public boolean isIsSomeThingUpdate() {
+        return isSomeThingUpdate;
+    }
+
+    public void setIsSomeThingUpdate(boolean isSomeThingUpdate) {
+        this.isSomeThingUpdate = isSomeThingUpdate;
+    }
+
+    @Override
+    public String toString() {
+        return "Favorite{" + "id=" + id + ", user=" + user + ", subjectId=" + subjectId + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", isSomeThingUpdate=" + isSomeThingUpdate + '}';
+    }
+
 }
