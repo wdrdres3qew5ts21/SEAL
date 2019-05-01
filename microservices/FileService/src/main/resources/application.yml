@@ -1,7 +1,7 @@
 amazonProperties:
-  endpointUrl: https://s3-ap-southeast-1.amazonaws.com
-  accessKey: AKIAJ2S6WJEVAXB5RRHQ
-  secretKey: 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
+  endpointUrl: 
+  accessKey: 
+  secretKey: 
   bucketName: elearning-file-warehouse
  
 spring:
